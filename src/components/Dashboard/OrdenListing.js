@@ -23,6 +23,7 @@ const OrdenListing = ({ ordenes }) => (
             {ordenes.map((o, index) => (
                 <tr data-index={index}>
                     <td>{o.nroorden}</td>
+                    <td>{o.asesor}</td>
                     <td>{o.apertura}</td>
                     <td>{o.salida}</td>
                     <td>{o.diasentaller}</td>
