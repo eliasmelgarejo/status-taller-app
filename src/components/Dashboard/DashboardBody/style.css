@@ -28,6 +28,8 @@
   height: 15px;
 }
 
+/* Color estados de la orden */
+
 .pendiente {
   background-color: #58f764;
 }
