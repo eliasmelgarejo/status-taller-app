@@ -1,17 +1,29 @@
-import React from 'react';
-import './style.css';
+import React, { useState } from 'react';
+import Warper from './Warper';
+import Popup from 'reactjs-popup';
+import myImage from './baseline_preview_black_18dp.png';
 
-class OrdenPopup extends React.Component {
-  render() {
-    return (
-      <div className='popup'>
-        <div className='popup_inner'>
-          <h1>{this.props.text}</h1>
-        <button onClick={this.props.closePopup}>close</button>
+//
+
+const ControlledPopup = () => {
+  const [open, setOpen] = useState(false);
+  const closeModal = () => setOpen(false);
+  return (
+    <div>
+      <button type="button" className="button" onClick={() => setOpen(o => !o)}>
+        Controlled Popup
+      </button>
+      <Popup open={open} closeOnDocumentClick onClose={closeModal}>
+        <div className="modal">
+          <a className="close" onClick={closeModal}>
+            &times;
+          </a>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae magni
+          omnis delectus nemo, maxime molestiae dolorem numquam mollitia, voluptate
+          ea, accusamus excepturi deleniti ratione sapiente! Laudantium, aperiam
+          doloribus. Odit, aut.
         </div>
-      </div>
-    );
-  }
-}
-
-export default OrdenPopup;
+      </Popup>
+    </div>
+  );
+};

@@ -7,7 +7,7 @@ import './style.css';
 const DashboardHeader = ({ cantidad_mec, cantidad_cyp }) => {
     return (
         <div className='titleComponent'>
-            <div><h1>STATUS TALLER</h1></div>
+
             <div className='row'>
                 <SeccionComponent seccion='MEC' cantidad={cantidad_mec} ></SeccionComponent>
                 <SeccionComponent seccion='CYP' cantidad={cantidad_cyp} ></SeccionComponent>

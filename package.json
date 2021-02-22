@@ -11,6 +11,7 @@
     "react-bootstrap": "^1.4.3",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.2",
+    "reactjs-popup": "^2.0.4",
     "web-vitals": "^1.1.0"
   },
   "scripts": {
@@ -19,7 +20,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:8090",
+  "proxy": "http://10.0.10.129:8090",
   "eslintConfig": {
     "extends": [
       "react-app",

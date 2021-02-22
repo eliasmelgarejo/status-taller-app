@@ -6,7 +6,7 @@ import './style.css';
 
 
 //url del api del sti hecho en spring
-const url_base_sti = "http://localhost:8090/api";
+const url_base_sti = "http://10.0.10.129:8090/api";
 
 class Dashboard extends Component {
 
