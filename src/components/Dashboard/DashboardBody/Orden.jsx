@@ -22,18 +22,18 @@ class Orden extends Component {
     render() { 
         var color='';
 
-        if(this.state.ot.diasentaller===1) color='pendiente';
-        if(this.state.ot.diasentaller===2) color='atencion';
-        if(this.state.ot.diasentaller>2) color='critico';
-        if(this.state.ot.estado==='TERMINADO' && this.state.ot.horasterminado <= 72 ) color='terminado';
-        if(this.state.ot.estado==='TERMINADO' && this.state.ot.horasterminado > 72 &&  this.state.ot.horasterminado <= 168) color='atencion';
-        if(this.state.ot.estado==='TERMINADO' && this.state.ot.horasterminado > 168 ) color='critico';
+        if(this.state.ot.diasentaller <=1 ) color='pendiente';
+        if(this.state.ot.diasentaller ===2 ) color='atencion';
+        if(this.state.ot.diasentaller >2 ) color='critico';
+        if(this.state.ot.estado==='TERMINADO' && this.state.ot.horasterminado <= 24 ) color='terminado';
+        if(this.state.ot.estado==='TERMINADO' && this.state.ot.horasterminado > 24 &&  this.state.ot.horasterminado <= 72) color='atencion';
+        if(this.state.ot.estado==='TERMINADO' && this.state.ot.horasterminado > 72 ) color='critico';
 
         var clases = 'span '+color;
 
         const PopupExample = () => (
             <Popup trigger={<button style={{backgroundColor:'transparent',borderColor:'transparent'}} 
-            onClick={this.onDetails}><img src={myImage}/></button>} position="top left">
+            onClick={this.onDetails}><img src={myImage}/></button>} position="center left">
                 {close => (
                     <div className="modalpopup" >
                         <div className="header">
