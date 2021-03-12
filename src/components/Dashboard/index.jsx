@@ -1,20 +1,16 @@
 import React, { Component } from "react";
-//import OrdenListing from './OrdenListing';
 import DashboardHeader from './DashboardHeader/index';
-// import DashboardBody from './DashboardBody';
-// import DashboardBody2 from './DashboardBody2';
 import Orden from './DashboardBody/Orden';
 import Select from 'react-select';
 import './style.css';
-import Datos from './../../datos.json';
-import iconSearch from './assets/search_find_24.png';
+//import Datos from './../../datos.json';
 import iconExcel from './assets/excel_social_24.png';
 import PopupSearch from './PopupSearh';
-import ReactExport from "react-data-export";
+// import ReactExport from "react-data-export";
 
-const ExcelFile = ReactExport.ExcelFile;
-const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+// const ExcelFile = ReactExport.ExcelFile;
+// const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+// const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
 //url del api del sti hecho en spring
 const url_base_sti = "http://10.0.10.120:8090/api";
@@ -31,6 +27,7 @@ class Dashboard extends Component {
             asesorSelected: '*',
             marcaSelected: '*',
             sucursalSelected: '*',
+            parameterSearch:null,
         };
     }
 
@@ -38,33 +35,39 @@ class Dashboard extends Component {
 
         this.setState({ isLoading: false });
         this._getDataAPI();
+        this.setState({
+            // asesorSelected: '*',
+            // marcaSelected: '*',
+            // sucursalSelected: '*',
+            parameterSearch: this.state.data.indexOf(0)
+        })
     }
 
     _getDataAPI() {
+            // this.setState({
+            //     data: Datos,
+            //     isLoading: true,
+            //     _cantidad_mec: Datos.filter(orden => orden.seccion !== 'CYP').length,
+            //     _cantidad_cyp: Datos.filter(orden => orden.seccion === 'CYP').length,
+            // });
+
+        var ordenes_uri = '/ordenes';
+
+        fetch(url_base_sti + ordenes_uri)
+        .then(response => response.json())
+        .then(result => {
+            console.log('Dashboard Respuesta de fetch result', result);
             this.setState({
-                data: Datos,
+                data: result,
                 isLoading: true,
-                _cantidad_mec: Datos.filter(orden => orden.seccion !== 'CYP').length,
-                _cantidad_cyp: Datos.filter(orden => orden.seccion === 'CYP').length,
+                _cantidad_mec: result.filter(orden => orden.seccion !== 'CYP').length,
+                _cantidad_cyp: result.filter(orden => orden.seccion === 'CYP').length,
             });
-
-        // var ordenes_uri = '/ordenes';
-
-        // fetch(url_base_sti + ordenes_uri)
-        // .then(response => response.json())
-        // .then(result => {
-        //     console.log('Dashboard Respuesta de fetch result', result);
-        //     this.setState({
-        //         ordenes: result,
-        //         isLoading: true,
-        //         _cantidad_mec: result.filter(orden => orden.seccion !== 'CYP').length,
-        //         _cantidad_cyp: result.filter(orden => orden.seccion === 'CYP').length,
-        //     });
-        // })
-        // .catch(error => {
-        //     this.setState({ error: error.message });
-        //     console.error({ error, isLoading: false });
-        // });
+        })
+        .catch(error => {
+            this.setState({ error: error.message });
+            console.error({ error, isLoading: false });
+        });
     }
 
     componentWillUpdate(nextProps,nextState){
@@ -80,7 +83,7 @@ class Dashboard extends Component {
     }
     
     shouldComponentUpdate(nextProps, nextState) {
-        console.log('Dashboard2 shouldComponentUpdate');
+        console.log('Dashboard shouldComponentUpdate');
         if(nextState.data.length > 0) {
             console.log('return true');            
             return true;
@@ -91,28 +94,29 @@ class Dashboard extends Component {
     
     handleClick = () => {
         return (
-            <ExcelFile>
-                <ExcelSheet data={Datos} name="Status Taller">
-                    <ExcelColumn label="Sucursal" value="sucursal"/>
-                    <ExcelColumn label="Seccion" value="seccion"/>
-                    <ExcelColumn label="Asesor Money" value="asesor"/>
-                    <ExcelColumn label="Orden" value="nroorden"/>
-                    <ExcelColumn label="Apertura" value="apertura"/>
-                    <ExcelColumn label="Chasis" value="chasis"/>
-                    <ExcelColumn label="Marca" value="marca"/>
-                    <ExcelColumn label="Tipo Servicio" value="tiposervicio"/>
-                    <ExcelColumn label="Dias Taller" value="diasentaller"/>
-                    <ExcelColumn label="Fecha Terminado" value="fechaterminado"/>
-                    <ExcelColumn label="Dia Terminado" value="horasterminado"/>
-                    <ExcelColumn label="ConTrabajos" value="contrabajos"/>
-                    <ExcelColumn label="MoCargadas" value="mocargadas"/>
-                    <ExcelColumn label="Temrinados" value="terminados"/>
-                    <ExcelColumn label="Salida" value="salida"/>
-                    <ExcelColumn label="Situacion" value="situacion"/>
-                    <ExcelColumn label="Estado" value="estado"/>
-                </ExcelSheet>
+            alert("En desarrollo!")
+            // <ExcelFile>
+            //     <ExcelSheet data={Datos} name="Status Taller">
+            //         <ExcelColumn label="Sucursal" value="sucursal"/>
+            //         <ExcelColumn label="Seccion" value="seccion"/>
+            //         <ExcelColumn label="Asesor Money" value="asesor"/>
+            //         <ExcelColumn label="Orden" value="nroorden"/>
+            //         <ExcelColumn label="Apertura" value="apertura"/>
+            //         <ExcelColumn label="Chasis" value="chasis"/>
+            //         <ExcelColumn label="Marca" value="marca"/>
+            //         <ExcelColumn label="Tipo Servicio" value="tiposervicio"/>
+            //         <ExcelColumn label="Dias Taller" value="diasentaller"/>
+            //         <ExcelColumn label="Fecha Terminado" value="fechaterminado"/>
+            //         <ExcelColumn label="Dia Terminado" value="horasterminado"/>
+            //         <ExcelColumn label="ConTrabajos" value="contrabajos"/>
+            //         <ExcelColumn label="MoCargadas" value="mocargadas"/>
+            //         <ExcelColumn label="Temrinados" value="terminados"/>
+            //         <ExcelColumn label="Salida" value="salida"/>
+            //         <ExcelColumn label="Situacion" value="situacion"/>
+            //         <ExcelColumn label="Estado" value="estado"/>
+            //     </ExcelSheet>
                 
-            </ExcelFile>
+            // </ExcelFile>
         );
     }
     // handleClick(){
@@ -120,12 +124,24 @@ class Dashboard extends Component {
     // }
       
 
-    handleSearhData = () =>{
-        var p_ot;
-        var p_ot_lista = Datos;
-        p_ot = p_ot_lista.find(orden => orden.nroorden === "375173" || orden.chasis === "375173");
-        console.log(p_ot);        
-        return <PopupSearch searchot={p_ot}></PopupSearch>
+    handleSearhData = (e) =>{
+        e.preventDefault();
+        const {evento, target} = e
+        //alert(e.type);
+        if(target.value.length>0){
+            console.log(target.value);
+            var xxx = target.value;
+            console.log(xxx.toUpperCase());
+            var p_ot;            
+            p_ot = this.state.data.find(orden => orden.nroorden === xxx.toUpperCase() 
+                || orden.chasis === xxx.toUpperCase()
+                || orden.chapa ===  xxx.toUpperCase());
+
+            console.log(p_ot);
+            this.setState({parameterSearch:p_ot}); 
+        }
+        //alert(e.nodeValue);
+        // return <PopupSearch searchparameter={"375173"}></PopupSearch>
     };
 
     render() {
@@ -172,7 +188,7 @@ class Dashboard extends Component {
         
                         <div className="text-danger"> Pendientes - {_mec_pendientes.length} </div>
                         <div className='areaComponent redComponent '>
-                            {_mec_pendientes.map(orden => <Orden id={orden.nroorden} ot={orden}></Orden>)}
+                            {_mec_pendientes.map(orden => <Orden ot={orden}></Orden>)}
                         </div>
         
                         <div className="text-success"> Con Trabajos - {_mec_proceso.length}  </div>
@@ -296,19 +312,22 @@ class Dashboard extends Component {
 
         return (            
             <div>
-                <div className="row">                
+                <div className="row">
+                                
                     <div className="col-md-1">Sucursal: </div>
                     <div className="col-md-2">
                         <Select options={Sucursales} onChange={(valor) => {
                             this.setState({sucursalSelected:valor.value}) //cambio el estado de sucursalSelected por el elegido
                         }}/>
                     </div>
+                    
                     <div className="col-md-1">Asesor: </div>
                     <div className="col-md-2">
                         <Select options={Asesores} onChange={(valor) => {
                             this.setState({asesorSelected:valor.value}) //cambio el estado de asesorSelected por el elegido
                         }}/>
                     </div>
+
                     <div className="col-md-1">
                         <text>Marca:</text>                      
                     </div>
@@ -317,18 +336,15 @@ class Dashboard extends Component {
                             this.setState({marcaSelected:valor.value})  //cambio el estado de marcaSelected por el elegido
                         }} />
                     </div>
+                    
                     <div className="col-md-3">
-                        <div className="row">
+                        <input id="searhInput" onBlur={e => this.handleSearhData(e)} placeholder="Nro. OT | Chapa | Chasis"/> 
 
-                            <input id="searhInput" onChange={(valor) =>{
-                                this.setState({searh: valor})
-                            }} placeholder="Nro. OT | Chapa | Chasis"/> 
-                            <button onClick={e => this.handleSearhData(e)}><img src={iconSearch}/></button>
-                            <button onClick={e => this.handleClick(e) }><img src={iconExcel}/></button>
+                        <PopupSearch searchot={this.state.parameterSearch}></PopupSearch>
+                        <button onClick={e => this.handleClick(e) }><img src={iconExcel}/></button>
 
-                        </div>
                     </div>
-                        
+
                 </div>             
                 <DashboardHeader hcantidad_mec={ordenes_mec.length} hcantidad_cyp={ordenes_cyp.length} ></DashboardHeader>
                 <DashboardBody2 _ordenes_asesor={ordenes_asesor} ></DashboardBody2>

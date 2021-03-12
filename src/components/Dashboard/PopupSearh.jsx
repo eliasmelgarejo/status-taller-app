@@ -1,11 +1,21 @@
 import React from 'react';
 import Popup from 'reactjs-popup';
+import iconSearch from './assets/search_find_24.png';
+import './style.css';
 
-const PopupSearch = ({ searchot }) => {
-    
+const PopupSearch = ({searchot}) => {
+
+    console.log('searchot',searchot);
+
     return(
         <React.Fragment>
-            <Popup trigger={<button style={{backgroundColor:'transparent',borderColor:'transparent'}}></button>} position="center left">
+            <Popup popperModifiers={{
+                preventOverflow: {
+                  boundariesElement: "offsetParent"
+                }
+              }}
+            trigger={<button> 
+                <img src={iconSearch}/></button>} >
                 {close => (
                     <div className="modalpopup" >
                         <div className="header">
@@ -20,6 +30,7 @@ const PopupSearch = ({ searchot }) => {
                             <div>Marca: {searchot.marca}</div>
                             <div>Vehículo {searchot.marcmodever}</div>
                             <div>Chasis: {searchot.chasis}</div>
+                            <div>Chapa: {searchot.chapa}</div>
                             <div>Tipo Servicio: {searchot.tiposervicio}</div>
                             <div>Estado: {searchot.estado}</div>
                             <div>Fecha Terminado: {searchot.fechaterminado}</div>

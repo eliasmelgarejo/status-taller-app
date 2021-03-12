@@ -15,7 +15,7 @@
 }
 
 .blueComponent {
-  background-color: #d0eef7;
+  background-color: #acd5e2;
 }
 
 .row {
@@ -50,20 +50,30 @@
 /* OrdenPopup */
 
 .modalpopup {
+  margin: 0 auto;
   font-size: 12px;
   background-color: #f1ea7f;
+  margin: 30px auto 0;
+  /* copnfiguro que el popup se muestre en el centro de la pantalla siempre */
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  -ms-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 .modalpopup > .header {
   width: 100%;
   border-bottom: 1px solid gray;
-  font-size: 18px;
+  font-size: 15px;
   text-align: center;
   padding: 5px;
 }
 .modalpopup > .content {
   width: 100%;
   padding: 10px 5px;
-  font-size: 15px;
+  font-size: 12px;
 }
 .modalpopup > .actions {
   width: 100%;

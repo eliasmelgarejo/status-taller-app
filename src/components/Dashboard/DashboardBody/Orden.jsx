@@ -29,11 +29,13 @@ class Orden extends Component {
         if(this.state.ot.estado==='TERMINADO' && this.state.ot.horasterminado > 24 &&  this.state.ot.horasterminado <= 72) color='atencion';
         if(this.state.ot.estado==='TERMINADO' && this.state.ot.horasterminado > 72 ) color='critico';
 
+        if(color===null) color = 'pendiente';
         var clases = 'span '+color;
 
         const PopupExample = () => (
             <Popup trigger={<button style={{backgroundColor:'transparent',borderColor:'transparent'}} 
-            onClick={this.onDetails}><img src={iconPreview}/></button>} position="center left">
+            >
+                <img src={iconPreview}/></button>} >
                 {close => (
                     <div className="modalpopup" >
                         <div className="header">
@@ -48,6 +50,7 @@ class Orden extends Component {
                             <div>Marca: {this.state.ot.marca}</div>
                             <div>Vehículo {this.state.ot.marcmodever}</div>
                             <div>Chasis: {this.state.ot.chasis}</div>
+                            <div>Chapa: {this.state.ot.chapa}</div>
                             <div>Tipo Servicio: {this.state.ot.tiposervicio}</div>
                             <div>Estado: {this.state.ot.estado}</div>
                             <div>Fecha Terminado: {this.state.ot.fechaterminado}</div>
