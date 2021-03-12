@@ -1,22 +1,23 @@
 //import { DiasHabilesComponent } from './components/DiasHabiles/DiasHabilesComponent';
 import Dashboard from './components/Dashboard/index';
-import TitleComponent from './components/Dashboard/DashboardHeader/TitleComponent';
+//import TitleComponent from './components/Dashboard/DashboardHeader/TitleComponent';
 //import logo from './logo.svg';
 import './App.css';
 
 
-function Header({ countInCart }) {
+function Header({ mytitle }) {
   return (
     <header className="titleComponent" id="Header">
-      <div><h1>STATUS TALLER</h1></div>
+      <div><h2>{mytitle}</h2></div>
     </header>
   );
 }
 
-function Main({ onAddToCart }) {
+function Main() {
   return (
-    <main className="p-3 flex justify-around" id="Main">
+    <main className=" flex justify-around" id="Main">
       <Dashboard></Dashboard>
+      <p></p>
     </main>
   );
 }
@@ -35,7 +36,7 @@ function Footer() {
 function App() {
   return (
     <div className="App">
-      <Header></Header>
+      <Header mytitle={'STATUS TALLER'}></Header>
       <Main></Main>
       <Footer></Footer>
     </div>

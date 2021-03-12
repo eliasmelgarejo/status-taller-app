@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import myImage from './baseline_preview_black_18dp.png';
+import iconPreview from './../assets/baseline_preview_black.png';
 import Popup from 'reactjs-popup';
 import './style.css'; 
 
@@ -33,17 +33,19 @@ class Orden extends Component {
 
         const PopupExample = () => (
             <Popup trigger={<button style={{backgroundColor:'transparent',borderColor:'transparent'}} 
-            onClick={this.onDetails}><img src={myImage}/></button>} position="center left">
+            onClick={this.onDetails}><img src={iconPreview}/></button>} position="center left">
                 {close => (
                     <div className="modalpopup" >
                         <div className="header">
-                            Orden Nro: {this.state.ot.nroorden}
+                            Orden Nro: {this.state.ot.nroorden} ({this.state.ot.situacion})
                         </div>
                         <div className="content">
-                            <div>Cliente: {this.state.ot.cliente}</div>
+                            <div>Sucursal: {this.state.ot.sucursal}</div>
                             <div>Asesor: {this.state.ot.asesor}</div>
+                            <div>Cliente: {this.state.ot.cliente}</div>
                             <div>Apertura: {this.state.ot.apertura}</div>
                             <div>Dias En Taller: {this.state.ot.diasentaller}</div>
+                            <div>Marca: {this.state.ot.marca}</div>
                             <div>Vehículo {this.state.ot.marcmodever}</div>
                             <div>Chasis: {this.state.ot.chasis}</div>
                             <div>Tipo Servicio: {this.state.ot.tiposervicio}</div>

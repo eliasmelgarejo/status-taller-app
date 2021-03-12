@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
 
+const Sucursales = [
+  {label: "CASA CENTRAL", value: "CASA CENTRAL"},
+  {label: "PDI MRA", value: "PDI MRA"},
+  {label: "CDE", value: "CDE"},
+  {label: "ENCARNACION", value: "ENCARNACION"},
+  {label: "MOTOS", value: "MOTOS"},
+]
 
 const Asesores = [
     { label: "PACUA ORTIZ, RAUL MARCELO", value: "PACUA ORTIZ, RAUL MARCELO" },
@@ -25,14 +32,18 @@ const FiltroComponent = ()=>{
     return(
         <div className="container">
         <div className="row">
-            <div className="col-md-2">Asesor: </div>
-            <div className="col-md-4">
-            <Select options={Asesores} />
-            </div>
-            <div className="col-md-2">Marca: </div>
-            <div className="col-md-4">
-            <Select options={Marcas}/>
-            </div>
+          <div className="col-md-2">Sucursal: </div>
+          <div className="col-md-4">
+          <Select options={Sucursales} />
+          </div>
+          <div className="col-md-2">Asesor: </div>
+          <div className="col-md-4">
+          <Select options={Asesores} />
+          </div>
+          <div className="col-md-2">Marca: </div>
+          <div className="col-md-4">
+          <Select options={Marcas}/>
+          </div>
         </div>
         <span></span>
       </div>

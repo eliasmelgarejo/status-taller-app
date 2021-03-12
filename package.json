@@ -41,6 +41,7 @@
     ]
   },
   "devDependencies": {
-    "@testing-library/react": "^11.2.5"
+    "@testing-library/react": "^11.2.5",
+    "terser-brunch": "^4.0.0"
   }
 }
