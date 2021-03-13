@@ -3,14 +3,14 @@ import DashboardHeader from './DashboardHeader/index';
 import Orden from './DashboardBody/Orden';
 import Select from 'react-select';
 import './style.css';
-//import Datos from './../../datos.json';
+import Datos from './../../datos.json';//datos de prueba
 import iconExcel from './assets/excel_social_24.png';
 import PopupSearch from './PopupSearh';
-// import ReactExport from "react-data-export";
+import ReactExport from "react-data-export";
 
-// const ExcelFile = ReactExport.ExcelFile;
-// const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-// const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
+const ExcelFile = ReactExport.ExcelFile;
+const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
 //url del api del sti hecho en spring
 const url_base_sti = "http://10.0.10.120:8090/api";
@@ -43,6 +43,16 @@ class Dashboard extends Component {
         })
     }
 
+    //solo para datos de prueba no usar en producció
+    _getDataAPI2(){
+        this.setState({
+            data: Datos,
+            isLoading: true,
+            _cantidad_mec: Datos.filter(orden => orden.seccion !== 'CYP').length,
+            _cantidad_cyp: Datos.filter(orden => orden.seccion === 'CYP').length,
+        });
+
+    }
     _getDataAPI() {
             // this.setState({
             //     data: Datos,
@@ -91,34 +101,7 @@ class Dashboard extends Component {
         console.log('return false');
         return false;        
     }
-    
-    handleClick = () => {
-        return (
-            alert("En desarrollo!")
-            // <ExcelFile>
-            //     <ExcelSheet data={Datos} name="Status Taller">
-            //         <ExcelColumn label="Sucursal" value="sucursal"/>
-            //         <ExcelColumn label="Seccion" value="seccion"/>
-            //         <ExcelColumn label="Asesor Money" value="asesor"/>
-            //         <ExcelColumn label="Orden" value="nroorden"/>
-            //         <ExcelColumn label="Apertura" value="apertura"/>
-            //         <ExcelColumn label="Chasis" value="chasis"/>
-            //         <ExcelColumn label="Marca" value="marca"/>
-            //         <ExcelColumn label="Tipo Servicio" value="tiposervicio"/>
-            //         <ExcelColumn label="Dias Taller" value="diasentaller"/>
-            //         <ExcelColumn label="Fecha Terminado" value="fechaterminado"/>
-            //         <ExcelColumn label="Dia Terminado" value="horasterminado"/>
-            //         <ExcelColumn label="ConTrabajos" value="contrabajos"/>
-            //         <ExcelColumn label="MoCargadas" value="mocargadas"/>
-            //         <ExcelColumn label="Temrinados" value="terminados"/>
-            //         <ExcelColumn label="Salida" value="salida"/>
-            //         <ExcelColumn label="Situacion" value="situacion"/>
-            //         <ExcelColumn label="Estado" value="estado"/>
-            //     </ExcelSheet>
-                
-            // </ExcelFile>
-        );
-    }
+        
     // handleClick(){
     //     alert('Hello Events!!');
     // }
@@ -127,7 +110,6 @@ class Dashboard extends Component {
     handleSearhData = (e) =>{
         e.preventDefault();
         const {evento, target} = e
-        //alert(e.type);
         if(target.value.length>0){
             console.log(target.value);
             var xxx = target.value;
@@ -140,12 +122,9 @@ class Dashboard extends Component {
             console.log(p_ot);
             this.setState({parameterSearch:p_ot}); 
         }
-        //alert(e.nodeValue);
-        // return <PopupSearch searchparameter={"375173"}></PopupSearch>
     };
 
     render() {
-
 
         if (this.setState.error) {
             return <p>{this.state.error.message}</p>
@@ -341,10 +320,29 @@ class Dashboard extends Component {
                         <input id="searhInput" onBlur={e => this.handleSearhData(e)} placeholder="Nro. OT | Chapa | Chasis"/> 
 
                         <PopupSearch searchot={this.state.parameterSearch}></PopupSearch>
-                        <button onClick={e => this.handleClick(e) }><img src={iconExcel}/></button>
-
+                        
+                        <ExcelFile element={<button><img src={iconExcel}/></button>}>
+                            <ExcelSheet data={this.state.data} name="Status Taller">
+                                <ExcelColumn label="Sucursal" value="sucursal"/>
+                                <ExcelColumn label="Seccion" value="seccion"/>
+                                <ExcelColumn label="Asesor Money" value="asesor"/>
+                                <ExcelColumn label="Orden" value="nroorden"/>
+                                <ExcelColumn label="Apertura" value="apertura"/>
+                                <ExcelColumn label="Chasis" value="chasis"/>
+                                <ExcelColumn label="Marca" value="marca"/>
+                                <ExcelColumn label="Tipo Servicio" value="tiposervicio"/>
+                                <ExcelColumn label="Dias Taller" value="diasentaller"/>
+                                <ExcelColumn label="Fecha Terminado" value="fechaterminado"/>
+                                <ExcelColumn label="Dias Terminado" value="horasterminado"/>
+                                <ExcelColumn label="Con Trabajos" value="contrabajos"/>
+                                <ExcelColumn label="Mo Cargadas" value="mocargadas"/>
+                                <ExcelColumn label="Temrinados" value="terminados"/>
+                                <ExcelColumn label="Salida" value="salida"/>
+                                <ExcelColumn label="Situacion" value="situacion"/>
+                                <ExcelColumn label="Estado" value="estado"/>
+                            </ExcelSheet>                            
+                        </ExcelFile>                       
                     </div>
-
                 </div>             
                 <DashboardHeader hcantidad_mec={ordenes_mec.length} hcantidad_cyp={ordenes_cyp.length} ></DashboardHeader>
                 <DashboardBody2 _ordenes_asesor={ordenes_asesor} ></DashboardBody2>
