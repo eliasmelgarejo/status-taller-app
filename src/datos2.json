@@ -1,0 +1,62 @@
+[
+    {
+        "type": "entries",
+        "day_week_name": "LUNES",
+        "count": 57
+    },
+    {
+        "type": "entries",
+        "day_week_name": "MARTES",
+        "count": 31
+    },
+    {
+        "type": "entries",
+        "day_week_name": "MIERCOLES",
+        "count": 31
+    },
+    {
+        "type": "entries",
+        "day_week_name": "JUEVES",
+        "count": 31
+    },
+    {
+        "type": "entries",
+        "day_week_name": "VIERNES",
+        "count": 31
+    },
+    {
+        "type": "entries",
+        "day_week_name": "SABADOS",
+        "count": 31
+    },
+    {
+        "type": "outputs",
+        "day_week_name": "LUNES",
+        "count": 19
+    },
+    {
+        "type": "outputs",
+        "day_week_name": "MARTES",
+        "count": 5
+    },
+    {
+        "type": "outputs",
+        "day_week_name": "MIERCOLES",
+        "count": 5
+    },
+    {
+        "type": "outputs",
+        "day_week_name": "JUEVES",
+        "count": 5
+    },
+    {
+        "type": "outputs",
+        "day_week_name": "VIERNES",
+        "count": 5
+    },
+    {
+        "type": "outputs",
+        "day_week_name": "SABADOS",
+        "count": 5
+    }
+]

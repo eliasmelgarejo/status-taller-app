@@ -14,13 +14,7 @@ class DashboardBody extends Component {
             asesorSelected: props._asesorSelected,
             marcaSelected: props._marcaSelected,
          }
-    }
-
-    // componentDidMount() {
-    //     console.log("DashboardBody componentDidMount");
-    //     console.log('this.state', this.state);
-    //     // this.setState({ ordenesFiltradas: this.state.ordenes });
-    // }
+    }   
 
     // You don't have to do this check first, but it can help prevent an unneeded render
     componentWillReceiveProps(nextProps) {

@@ -5,6 +5,8 @@ import Statistics from './components/Statistics/index';
 import './App.css';
 import iconDashbord from './components/Statistics/assets/dashboard_32.png';
 import iconStatistics from './components/Statistics/assets/combo-chart-32.png';
+import { Navbar, Nav, Container, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
+
 
 // function App() {
 //   return (
@@ -53,18 +55,25 @@ class App extends Component {
 
   render() {
 
-    const Header = ({ mytitle }) => {
+    const Menu = () => {
       return (
-        <header className="titleComponent" id="Header">
-          <div>
-            <h2>{mytitle}</h2>
-            <div className="row">
-              <span>--</span>
-              <button onClick={e => this.handleDashboardButtom(e)}><img src={iconDashbord}></img></button>
-              <button onClick={e => this.handleStatisticsButtom(e)}><img src={iconStatistics}></img></button>
-            </div>
-          </div>
-        </header>
+        <>
+          <Navbar bg="primary" expand="lg" variant="dark">
+            <Navbar.Brand href="/">
+              {'Status Taller'}
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="mr-auto">
+                <Nav.Link onClick={e => this.handleDashboardButtom(e)}>
+                  <img src={iconDashbord}></img>
+                </Nav.Link>
+                <Nav.Link onClick={e => this.handleStatisticsButtom(e)}>
+                  <img src={iconStatistics}></img></Nav.Link>
+              </Nav>
+            </Navbar.Collapse>
+          </Navbar>
+        </>
       );
     }
 
@@ -74,36 +83,32 @@ class App extends Component {
         return (
           <main className="flex justify-around" id="Main">
             <Dashboard></Dashboard>
-            <p></p>
+            <br />
           </main>
         );
       } else {
         return (
           <main className="flex justify-around" id="Main">
             <Statistics></Statistics>
-            <p></p>
+            <br />
           </main>
         );
       }
 
     }
 
-    const Footer = () => {
-      return (
-        <footer
-          className="titleComponent p-2 text-xs flex justify-around items-center bg-gray-900 text-white"
-          id="Footer"
-        >
+    return (
+      <div className="App Container">
+        <header>
+          <Menu></Menu>
+        </header>
+        <section>
+          <br></br>
+          <Main viewDashboard={this.state._viewDashboard}></Main>
+        </section>
+        <footer className="bg-primary p-2 text-xs flex justify-around items-center bg-gray-900 text-white">
           <div>© 2021 Departamento de TI</div>
         </footer>
-      );
-    }
-
-    return (
-      <div className="App">
-        <Header mytitle={'STATUS TALLER'}></Header>
-        <Main viewDashboard={this.state._viewDashboard}></Main>
-        <Footer></Footer>
       </div>
     );
   }

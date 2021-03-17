@@ -41,9 +41,4 @@ class SeccionComponent extends Component {
     }
 }
 
-// SeccionComponent.propTypes = {
-//     _seccion: PropTypes.string.isRequired,
-//     _cantidad: PropTypes.number.isRequired,
-// };
-
 export default SeccionComponent;

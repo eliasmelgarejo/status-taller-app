@@ -16,10 +16,7 @@ class DashboardHeader extends Component {
 
     //WARNING! To be deprecated in React v17. Use new lifecycle static getDerivedStateFromProps instead.
     componentWillReceiveProps(nextProps) {
-        // console.log('DashboardHeader componentWillReceiveProps this.props');
-        // console.log(this.state);
-        // console.log('DashboardHeader componentWillReceiveProps nextProps');
-        // console.log(nextProps);
+        
         if(this.state.h_cantidad_mec !== nextProps.hcantidad_mec){
             this.setState({h_cantidad_mec: nextProps.hcantidad_mec});
         }
@@ -29,8 +26,7 @@ class DashboardHeader extends Component {
     }
 
     render() { 
-        // console.log('DashboardHeader render this.state');
-        // console.log(this.state);
+        
         return ( 
             <div className='titleComponent'>
                 <div className='row'>
@@ -46,10 +42,5 @@ class DashboardHeader extends Component {
          );
     }
 }
-
-// SeccionComponent.propTypes = {
-//     h_cantidad_mec: PropTypes.number.isRequired,
-//     h_cantidad_cyp: PropTypes.number.isRequired,
-// };
 
 export default DashboardHeader;

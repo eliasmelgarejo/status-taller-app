@@ -4,6 +4,7 @@ import Orden from './DashboardBody/Orden';
 import Select from 'react-select';
 import './style.css';
 import Datos from './../../datos.json';//datos de prueba
+import { apiUrl } from './../../config.json';
 import iconExcel from './assets/excel_social_24.png';
 import PopupSearch from './PopupSearh';
 import ReactExport from "react-data-export";
@@ -13,7 +14,7 @@ const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
 //url del api del sti hecho en spring
-const url_base_sti = "http://10.0.10.120:8090/api";
+// const url_base_sti = "http://10.0.10.120:8090/api";
 
 class Dashboard extends Component {
 
@@ -27,7 +28,7 @@ class Dashboard extends Component {
             asesorSelected: '*',
             marcaSelected: '*',
             sucursalSelected: '*',
-            parameterSearch:null,
+            parameterSearch: null,
         };
     }
 
@@ -43,7 +44,7 @@ class Dashboard extends Component {
         })
     }
 
-    //solo para datos de prueba no usar en producció
+    //solo para datos de prueba no usar en producción
     _getDataAPI2(){
         this.setState({
             data: Datos,
@@ -54,16 +55,11 @@ class Dashboard extends Component {
 
     }
     _getDataAPI() {
-            // this.setState({
-            //     data: Datos,
-            //     isLoading: true,
-            //     _cantidad_mec: Datos.filter(orden => orden.seccion !== 'CYP').length,
-            //     _cantidad_cyp: Datos.filter(orden => orden.seccion === 'CYP').length,
-            // });
-
-        var ordenes_uri = '/ordenes';
-
-        fetch(url_base_sti + ordenes_uri)
+            
+        // var ordenes_uri = '/ordenes';
+        console.log("API URL");
+        console.log(apiUrl);
+        fetch(apiUrl + '/ordenes')
         .then(response => response.json())
         .then(result => {
             console.log('Dashboard Respuesta de fetch result', result);
@@ -148,18 +144,7 @@ class Dashboard extends Component {
             //lista de cyp
             _cyp_pendientes = filtradas.filter(orden => orden.seccion === 'CYP' && orden.estado==='PENDIENTE');
             _cyp_proceso = filtradas.filter(orden => orden.seccion === 'CYP' && orden.estado==='PROCESO');
-            _cyp_terminados = filtradas.filter(orden => orden.seccion === 'CYP' && orden.estado==='TERMINADO');
-        
-            console.log("PENDIENTES En DASHBOARD BODY index.js...");
-            console.log(filtradas);
-            console.log('***********');
-            console.log('_mec_pendientes',_mec_pendientes);
-            console.log('_mec_proceso',_mec_proceso);
-            console.log('_mec_terminados',_mec_terminados);
-            console.log('_cyp_pendientes',_cyp_pendientes);
-            console.log('_cyp_proceso',_cyp_proceso);
-            console.log('_cyp_terminados',_cyp_terminados);
-            console.log('***********');
+            _cyp_terminados = filtradas.filter(orden => orden.seccion === 'CYP' && orden.estado==='TERMINADO');        
         
             return ( 
                 <div className='row'>
@@ -215,10 +200,10 @@ class Dashboard extends Component {
         });
         
         let sinRepetidos = lista.filter((valor, indiceActual, lista) => lista.indexOf(valor) === indiceActual);
-        sinRepetidos.push('*');
+        sinRepetidos.unshift('*');
 
         let sinRepetidosMarcas = aux_marcas.filter((valor,indiceActual, aux_marcas) => aux_marcas.indexOf(valor) === indiceActual);
-        sinRepetidosMarcas.push('*');
+        sinRepetidosMarcas.unshift('*');
 
         const Sucursales = [
             {label: "CASA CENTRAL", value: "CASA CENTRAL"},
@@ -282,12 +267,6 @@ class Dashboard extends Component {
 
             ordenes_asesor = this.state.data;
         }
-        console.log('###############################################################################');
-        console.log("FILTRO: Asesor: "+this.state.asesorSelected+" y Marca:"+ this.state.marcaSelected);
-        console.log('MEC CANTIDAD: ' + ordenes_mec.length +' CYP CANTIDAD: ' + ordenes_cyp.length);
-        console.log('this.state.ordenes',this.state.ordenes);
-        console.log('ordenes_asesor',ordenes_asesor);
-        console.log('###############################################################################');
 
         return (            
             <div>
