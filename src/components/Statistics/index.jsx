@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import Chart from "react-apexcharts";
 import DATOS2 from './../../datos2.json';
-import { apiUrl } from './../../config.json';
-import { MDBCard, MDBCardTitle, MDBCardText, MDBContainer,MDBRow, MDBCol } from "mdbreact";
+import { Container, Col, Row, Card } from 'react-bootstrap';
+import OrdenesServices from '../../services/OrdenesServices';
 
 class Statistics extends Component {
     constructor(props) {
@@ -85,15 +85,12 @@ class Statistics extends Component {
         }
     }
 
-    cargarDatos(){
-        //llamada API con Feth aquí        
-        console.log("API URL");
-        console.log(apiUrl);
-        fetch(apiUrl + '/resumensemana')
-        .then(response => response.json())
-        .then(result => {
-            console.log('Statistics Respuesta de fetch result', result);
-            var xxx = result.filter(x=>x.type==='entries');
+    getResumen(){
+        OrdenesServices.getResumenESOrdenes()
+        .then(
+            result => {
+                console.log("getResumen => OrdenesServices.getResumenESOrdenes",result);
+                var xxx = result.filter(x=>x.type==='entries');
             var yyy = result.filter(x=>x.type==='outputs');
             console.log('xxx', xxx);
             console.log('yyy', yyy);
@@ -133,50 +130,18 @@ class Statistics extends Component {
                 totalIngresos: _totalingresos,
                 totalEgresos: _totalegresos
             });
-        })
-        .catch(error => {
-            this.setState({ error: error.message });
-            console.error({ error, isLoading: false });
-        });
-        
+            }
+        ).catch(
+            err => {
+                console.log("getResumen => OrdenesServices.getResumenESOrdenes ERROR: ",err);
+
+            }
+        )
     }
 
     componentDidMount() {
         this.setState({ isLoading: false });
-        this.cargarDatos();
-        
-        // var xxx = this.state.data.filter(x=>x.type==='entries');
-        // var yyy = this.state.data.filter(x=>x.type==='outputs');
-        // var entradas=[];
-        // var salidas = [];
-        // var _totalingresos=0,_totalegresos=0;
-
-        // xxx.forEach(function(elemento, indice, array) {
-        //     entradas.push(elemento.count);
-        //     _totalingresos += elemento.count;
-        // });
-
-        // yyy.forEach(function(elemento, indice, array) {
-        //     salidas.push(elemento.count);
-        //     _totalegresos += elemento.count;
-        // });        
-
-        // var newseries=[
-        //     {
-        //         name: "Entradas",
-        //         data: entradas
-        //     },
-        //     {
-        //         name: "Salidas",
-        //         data: salidas
-        //     }
-        // ];
-       
-        // this.setState({
-        //     series: newseries,
-        //     totalIngresos: _totalingresos,
-        //     totalEgresos: _totalegresos
-        // })
+        this.getResumen();
     }
     
     render() { 
@@ -192,32 +157,32 @@ class Statistics extends Component {
         }
 
         return ( 
-            <MDBContainer 
+            <Container 
             style={{
                 width: "100%",
                 marginTop: "1rem",
                 background: "#F7F8F9"
             }}>
-                <MDBRow>
-                    <MDBCol>
+                <Row sm={12}>
+                    <Col sm={8}>
                         <div className="mixed-chart">
                             <Chart
                             options={this.state.options}
                             series={this.state.series}
                             type="line"
-                            width="650"
+                            width="100%"
                             />
                         </div>
-                    </MDBCol>
+                    </Col>
 
-                    <MDBCol>
-                        <MDBCard className="card-body" 
+                    <Col sm={4}>
+                        <Card className="card-body" 
                             style={{ 
                                 width: "100%", 
-                                marginTop: "10rem",
+                                marginTop: "1rem",
                                 background: "#E0E6EA" }}>
-                                <MDBCardTitle style={{color:"#1172B1"}} >Balance</MDBCardTitle>
-                                <MDBCardText style={{color:"#1172B1"}} >
+                                <Card.Title style={{color:"#1172B1"}} >Balance</Card.Title>
+                                <Card.Text style={{color:"#1172B1"}} >
                                     <div className="flex-row">
                                        <p>Entradas: {this.state.totalIngresos}</p> 
                                     </div>
@@ -227,12 +192,12 @@ class Statistics extends Component {
                                     <div className="flex-row">
                                         <p>Saldo: {this.state.totalIngresos - this.state.totalEgresos}</p>
                                     </div>
-                                </MDBCardText>
+                                </Card.Text>
                                 
-                            </MDBCard>
-                    </MDBCol>
-                </MDBRow>
-            </MDBContainer>            
+                            </Card>
+                    </Col>
+                </Row>
+            </Container>            
          );
     }
 }

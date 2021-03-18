@@ -6,7 +6,7 @@ import './App.css';
 import iconDashbord from './components/Statistics/assets/dashboard_32.png';
 import iconStatistics from './components/Statistics/assets/combo-chart-32.png';
 import { Navbar, Nav, Container, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
-
+// import { ReactComponent as Logo } from './logo.svg';
 
 // function App() {
 //   return (
@@ -60,6 +60,7 @@ class App extends Component {
         <>
           <Navbar bg="primary" expand="lg" variant="dark">
             <Navbar.Brand href="/">
+              {/* <Logo /> */}
               {'Status Taller'}
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />

@@ -8,6 +8,7 @@ import { apiUrl } from './../../config.json';
 import iconExcel from './assets/excel_social_24.png';
 import PopupSearch from './PopupSearh';
 import ReactExport from "react-data-export";
+import OrdenesServices from '../../services/OrdenesServices';
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -35,11 +36,9 @@ class Dashboard extends Component {
     componentDidMount() {
 
         this.setState({ isLoading: false });
-        this._getDataAPI();
+        // this._getDataAPI();
+        this.getOrdenes();
         this.setState({
-            // asesorSelected: '*',
-            // marcaSelected: '*',
-            // sucursalSelected: '*',
             parameterSearch: this.state.data.indexOf(0)
         })
     }
@@ -54,27 +53,49 @@ class Dashboard extends Component {
         });
 
     }
-    _getDataAPI() {
-            
-        // var ordenes_uri = '/ordenes';
-        console.log("API URL");
-        console.log(apiUrl);
-        fetch(apiUrl + '/ordenes')
-        .then(response => response.json())
-        .then(result => {
-            console.log('Dashboard Respuesta de fetch result', result);
-            this.setState({
-                data: result,
-                isLoading: true,
-                _cantidad_mec: result.filter(orden => orden.seccion !== 'CYP').length,
-                _cantidad_cyp: result.filter(orden => orden.seccion === 'CYP').length,
-            });
+
+    getOrdenes(){
+        OrdenesServices.getOrdenesSinSalida()
+        .then(
+            result => {
+                console.log('getOrdenes OrdenesServices.getOrdenesSinSalida...',result);
+                this.setState({
+                    data: result,
+                    isLoading: true,
+                    _cantidad_mec: result.filter(orden => orden.seccion !== 'CYP').length,
+                    _cantidad_cyp: result.filter(orden => orden.seccion === 'CYP').length,
+                });
+            }
+        )
+        .catch(err =>{
+            this.setState({ 
+                error: err.message,
+                isLoading: false
+             });
         })
-        .catch(error => {
-            this.setState({ error: error.message });
-            console.error({ error, isLoading: false });
-        });
     }
+
+    // _getDataAPI() {
+            
+    //     // var ordenes_uri = '/ordenes';
+    //     console.log("API URL");
+    //     console.log(apiUrl);
+    //     fetch(apiUrl + '/ordenes')
+    //     .then(response => response.json())
+    //     .then(result => {
+    //         console.log('Dashboard Respuesta de fetch result', result);
+    //         this.setState({
+    //             data: result,
+    //             isLoading: true,
+    //             _cantidad_mec: result.filter(orden => orden.seccion !== 'CYP').length,
+    //             _cantidad_cyp: result.filter(orden => orden.seccion === 'CYP').length,
+    //         });
+    //     })
+    //     .catch(error => {
+    //         this.setState({ error: error.message });
+    //         console.error({ error, isLoading: false });
+    //     });
+    // }
 
     componentWillUpdate(nextProps,nextState){
         console.log('Dashboard2 componentWillUpdate');
