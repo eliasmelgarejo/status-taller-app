@@ -4,7 +4,6 @@ import Orden from './DashboardBody/Orden';
 import Select from 'react-select';
 import './style.css';
 import Datos from './../../datos.json';//datos de prueba
-import { apiUrl } from './../../config.json';
 import iconExcel from './assets/excel_social_24.png';
 import PopupSearch from './PopupSearh';
 import ReactExport from "react-data-export";
@@ -13,9 +12,6 @@ import OrdenesServices from '../../services/OrdenesServices';
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
-
-//url del api del sti hecho en spring
-// const url_base_sti = "http://10.0.10.120:8090/api";
 
 class Dashboard extends Component {
 
@@ -30,16 +26,20 @@ class Dashboard extends Component {
             marcaSelected: '*',
             sucursalSelected: '*',
             parameterSearch: null,
+            parameterEncontrado: false,
+            pantallalista: false,
+            primeraVez:true,
         };
     }
 
     componentDidMount() {
 
         this.setState({ isLoading: false });
-        // this._getDataAPI();
-        this.getOrdenes();
+        this._getDataAPI2();
+        //this.getOrdenes();
         this.setState({
-            parameterSearch: this.state.data.indexOf(0)
+            parameterSearch: this.state.data.indexOf(0),
+            pantallalista: true,
         })
     }
 
@@ -75,28 +75,6 @@ class Dashboard extends Component {
         })
     }
 
-    // _getDataAPI() {
-            
-    //     // var ordenes_uri = '/ordenes';
-    //     console.log("API URL");
-    //     console.log(apiUrl);
-    //     fetch(apiUrl + '/ordenes')
-    //     .then(response => response.json())
-    //     .then(result => {
-    //         console.log('Dashboard Respuesta de fetch result', result);
-    //         this.setState({
-    //             data: result,
-    //             isLoading: true,
-    //             _cantidad_mec: result.filter(orden => orden.seccion !== 'CYP').length,
-    //             _cantidad_cyp: result.filter(orden => orden.seccion === 'CYP').length,
-    //         });
-    //     })
-    //     .catch(error => {
-    //         this.setState({ error: error.message });
-    //         console.error({ error, isLoading: false });
-    //     });
-    // }
-
     componentWillUpdate(nextProps,nextState){
         console.log('Dashboard2 componentWillUpdate');
         console.log('this.state.asesorSelected',this.state.asesorSelected);
@@ -112,32 +90,59 @@ class Dashboard extends Component {
     shouldComponentUpdate(nextProps, nextState) {
         console.log('Dashboard shouldComponentUpdate');
         if(nextState.data.length > 0) {
-            console.log('return true');            
+            console.log('shouldComponentUpdate return true');            
             return true;
         }
-        console.log('return false');
+        console.log('shouldComponentUpdate return false');
         return false;        
-    }
-        
-    // handleClick(){
-    //     alert('Hello Events!!');
-    // }
-      
+    }    
 
     handleSearhData = (e) =>{
         e.preventDefault();
         const {evento, target} = e
-        if(target.value.length>0){
-            console.log(target.value);
-            var xxx = target.value;
-            console.log(xxx.toUpperCase());
-            var p_ot;            
-            p_ot = this.state.data.find(orden => orden.nroorden === xxx.toUpperCase() 
-                || orden.chasis === xxx.toUpperCase()
-                || orden.chapa ===  xxx.toUpperCase());
 
-            console.log(p_ot);
-            this.setState({parameterSearch:p_ot}); 
+        const listadeordenes = this.state.data.map((orden)=>{
+            return orden.nroorden;
+        });
+        const listadechasis = this.state.data.map((orden)=>{
+            return orden.chasis;
+        });
+        const listadechapas = this.state.data.map((orden)=>{
+            return orden.chapa;
+        });
+
+        if( (listadeordenes.includes(target.value.toUpperCase()) 
+        || listadechasis.includes(target.value.toUpperCase()) 
+        || listadechapas.includes(target.value.toUpperCase()) )
+        && this.state.pantallalista===true ) {
+
+            console.log(target.value);
+
+            console.log('MyArray  Includes NRO ORDEN');
+            console.info('Encontreo Orden o Chasis o Chapa',listadeordenes.includes(target.value.toUpperCase()),
+            listadechasis.includes(target.value.toUpperCase()),listadechapas.includes(target.value.toUpperCase()));
+
+            var p_ot;           
+            p_ot = this.state.data.find(orden => orden.nroorden ===  target.value.toUpperCase() 
+                || orden.chasis ===  target.value.toUpperCase()
+                || orden.chapa ===   target.value.toUpperCase());
+            
+            this.setState({
+                parameterSearch:p_ot,
+                parameterEncontrado:true,
+            }); 
+        }else{
+            if(this.state.primeraVez===false){
+                alert('Registro no encontrado!', target.value);
+    
+                this.setState({
+                    parameterEncontrado:false,
+                }); 
+            }else{
+                this.setState({
+                    primeraVez:false,
+                }); 
+            }
         }
     };
 
@@ -319,7 +324,7 @@ class Dashboard extends Component {
                     <div className="col-md-3">
                         <input id="searhInput" onBlur={e => this.handleSearhData(e)} placeholder="Nro. OT | Chapa | Chasis"/> 
 
-                        <PopupSearch searchot={this.state.parameterSearch}></PopupSearch>
+                        <PopupSearch searchot={this.state.parameterSearch} encontrado={this.state.parameterEncontrado}></PopupSearch>
                         
                         <ExcelFile element={<button><img src={iconExcel}/></button>}>
                             <ExcelSheet data={this.state.data} name="Status Taller">

@@ -6,17 +6,6 @@ import './App.css';
 import iconDashbord from './components/Statistics/assets/dashboard_32.png';
 import iconStatistics from './components/Statistics/assets/combo-chart-32.png';
 import { Navbar, Nav, Container, NavDropdown, Form, FormControl, Button } from 'react-bootstrap';
-// import { ReactComponent as Logo } from './logo.svg';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <Header mytitle={'STATUS TALLER'}></Header>
-//       <Main></Main>
-//       <Footer></Footer>
-//     </div>
-//   );
-// }
 
 class App extends Component {
   constructor(props) {
