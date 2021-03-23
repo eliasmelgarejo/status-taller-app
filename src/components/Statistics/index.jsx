@@ -12,16 +12,21 @@ class Statistics extends Component {
             isLoading: false,
             error: null,
             totalIngresos: 0,
-            totalEgresos: 0,
+            totalEgresoscw: 0,
+            totalEgresospw: 0,
             series: [
-            {
-                name: "Entradas",
-                data: []
-            },
-            {
-                name: "Salidas",
-                data: []
-            }
+                {
+                    name: "Entradas",
+                    data: []
+                },
+                {
+                    name: "SalidasCW",
+                    data: []
+                },
+                {
+                    name: "SalidasPW",
+                    data: []
+                }
             ],
 
             options: {
@@ -40,7 +45,7 @@ class Statistics extends Component {
                 show: false
                 }
             },
-            colors: ['#77B6EA', '#545454'],
+            colors: ['#77B6EA', '#545454','#684E28'],
             dataLabels: {
                 enabled: true,
             },
@@ -89,47 +94,64 @@ class Statistics extends Component {
         OrdenesServices.getResumenESOrdenes()
         .then(
             result => {
+
                 console.log("getResumen => OrdenesServices.getResumenESOrdenes",result);
                 var xxx = result.filter(x=>x.type==='entries');
-            var yyy = result.filter(x=>x.type==='outputs');
-            console.log('xxx', xxx);
-            console.log('yyy', yyy);
-            var entradas=[];
-            var salidas = [];            
-            var _totalingresos=0,_totalegresos=0;
-            
-            xxx.forEach(function(elemento, indice, array) {
-                entradas.push(elemento.count);
-                _totalingresos += parseInt(elemento.count);
-            });
+                var yyy = result.filter(x=>x.type==='outputs_cw');
+                var zzz = result.filter(x =>x.type==='outputs_pw')
+                
+                console.log('xxx', xxx);
+                console.log('yyy', yyy);
+                console.log('zzz', zzz);
 
-            yyy.forEach(function(elemento, indice, array) {
-                salidas.push(elemento.count);
-                _totalegresos += parseInt(elemento.count);
-            });
+                var entradas=[];
+                var salidascw = [];            
+                var salidaspw = [];
+                var _totalingresos=0,_totalegresoscw=0,_totalegresospw=0;
+                
+                xxx.forEach(function(elemento, indice, array) {
+                    entradas.push(elemento.count);
+                    _totalingresos += parseInt(elemento.count);
+                });
 
-            console.log("entradas",entradas);
-            console.log("salidas",salidas);
-            console.log("Total Ingresos Egresos",_totalingresos,_totalegresos);            
+                yyy.forEach(function(elemento, indice, array) {
+                    salidascw.push(elemento.count);
+                    _totalegresoscw += parseInt(elemento.count);
+                });
 
-            var newseries=[
-                {
-                    name: "Entradas",
-                    data: entradas
-                },
-                {
-                    name: "Salidas",
-                    data: salidas
-                }
-            ];
+                zzz.forEach(function(elemento, indice, array) {
+                    salidaspw.push(elemento.count);
+                    _totalegresospw += parseInt(elemento.count);
+                });
 
-            this.setState({
-                data: result,
-                isLoading: true,
-                series: newseries,
-                totalIngresos: _totalingresos,
-                totalEgresos: _totalegresos
-            });
+                console.log("entradas",entradas);
+                console.log("salidas cw",salidascw);
+                console.log("salidas pw",salidaspw);
+                console.log("Total Ingresos EgresosCW EgresosPW",_totalingresos,_totalegresoscw,_totalegresospw);            
+
+                var newseries=[
+                    {
+                        name: "Entradas",
+                        data: entradas
+                    },
+                    {
+                        name: "SalidasCW",
+                        data: salidascw
+                    },
+                    {
+                        name: "SalidasPW",
+                        data: salidaspw
+                    }
+                ];
+
+                this.setState({
+                    data: result,
+                    isLoading: true,
+                    series: newseries,
+                    totalIngresos: _totalingresos,
+                    totalEgresoscw: _totalegresoscw,
+                    totalEgresospw: _totalegresospw
+                });
             }
         ).catch(
             err => {
@@ -187,10 +209,17 @@ class Statistics extends Component {
                                        <p>Entradas: {this.state.totalIngresos}</p> 
                                     </div>
                                     <div className="flex-row">
-                                        <p>Salidas: {this.state.totalEgresos}</p>
+                                        <p>Salidas Sem. Actual: {this.state.totalEgresoscw}</p>
                                     </div>
                                     <div className="flex-row">
-                                        <p>Saldo: {this.state.totalIngresos - this.state.totalEgresos}</p>
+                                        <p>Salidas Sem. Anteriores: {this.state.totalEgresospw}</p>
+                                    </div>
+                                    <div className="flex-row">
+                                        <p>Saldo Sem. Actual: {this.state.totalIngresos - this.state.totalEgresoscw}</p>
+                                    </div>
+                                    <div className="flex-row">
+                                        <p>Saldo Sem. Anteriores: {this.state.totalIngresos - 
+                                        (this.state.totalEgresoscw + this.state.totalEgresospw)}</p>
                                     </div>
                                 </Card.Text>
                                 

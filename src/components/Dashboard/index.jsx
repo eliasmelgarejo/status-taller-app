@@ -35,8 +35,8 @@ class Dashboard extends Component {
     componentDidMount() {
 
         this.setState({ isLoading: false });
-        this._getDataAPI2();
-        //this.getOrdenes();
+        //this._getDataAPI2();
+        this.getOrdenes();
         this.setState({
             parameterSearch: this.state.data.indexOf(0),
             pantallalista: true,
