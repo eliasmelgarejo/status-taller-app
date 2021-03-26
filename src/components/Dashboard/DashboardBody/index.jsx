@@ -23,11 +23,9 @@ class DashboardBody extends Component {
         console.log("this.state", this.state);
         
         if(this.state.asesorSelected !== nextProps.asesorSelected){
-
             this.setState({
                 asesorSelected: nextProps.asesorSelected,
-            });
-                        
+            });                        
         }
     }
 

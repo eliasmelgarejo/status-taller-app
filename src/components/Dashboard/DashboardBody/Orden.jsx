@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Animated, Easing } from 'react';
 import iconPreview from './../assets/baseline_preview_black.png';
+import iconAlert from './../assets/alert-icon-24.png';
 import Popup from 'reactjs-popup';
 import './style.css'; 
 
@@ -9,7 +10,27 @@ class Orden extends Component {
         this.state = { 
             ot: props.ot,
         }   
+        // this.rotation = new Animated.Value(0);
     }
+    
+    // componentDidMount(){
+    //     if(this.props.animar === true) {
+    //       this.animacion()
+    //     }
+    // }
+
+    // animacion = () => {
+    //     Animated.timing(this.rotation, {
+    //       duration: 1500,
+    //       toValue: 1,
+    //       easing: Easing.linear,
+    //     }).start((completion) => {
+    //       if (completion.finished) {
+    //         this.rotation.setValue(0);
+    //         this.animacion();
+    //       }
+    //     });
+    //   }
 
     onDetails = () => {
         //console.log('OT Nro.: '+this.state.ot.nroorden);
@@ -19,8 +40,9 @@ class Orden extends Component {
 
     };
 
-    render() { 
-        var color='';
+    render() {         
+
+        var color='';           
 
         if(this.state.ot.diasentaller <=1 ) color='pendiente';
         if(this.state.ot.diasentaller ===2 ) color='atencion';
@@ -32,16 +54,31 @@ class Orden extends Component {
         if(color===null) color = 'pendiente';
         var clases = 'span '+color;
 
+        var icon;
+        var prioridad_msg = '';
+        
+        if(this.state.ot.prioridad === 'SI'){
+            
+            icon=iconAlert;
+            prioridad_msg='Prioridad';
+        }else{
+            icon=iconPreview;
+        }
+        
+        
         const PopupExample = () => (
             <Popup trigger={<button style={{backgroundColor:'transparent',borderColor:'transparent'}} 
             >
-                <img src={iconPreview}/></button>} >
+                <img src={icon}/>
+                
+                </button>} >
                 {close => (
                     <div className="modalpopup" >
                         <div className="header">
-                            Orden Nro: {this.state.ot.nroorden} ({this.state.ot.situacion})
+                        <div style={{color: '#680f85'}}>{prioridad_msg}</div> Orden Nro: {this.state.ot.nroorden} ({this.state.ot.situacion})
                         </div>
                         <div className="content">
+                            <div>Prioridad: {this.state.ot.prioridad}</div>
                             <div>Sucursal: {this.state.ot.sucursal}</div>
                             <div>Asesor: {this.state.ot.asesor}</div>
                             <div>Cliente: {this.state.ot.cliente}</div>

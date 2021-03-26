@@ -36,11 +36,11 @@
 }
 
 .atencion {
-  background-color: #f9a954;
+  background-color: #e4994a;
 }
 
 .critico {
-  background-color: #f96554;
+  background-color: #d16060;
 }
 
 .terminado {
@@ -90,7 +90,7 @@
   right: -10px;
   top: -10px;
   font-size: 24px;
-  background: #f50b0b;
+  background: #f50be2;
   border-radius: 18px;
-  border: 1px solid #f50b0b;
+  border: 1px solid rgb(10, 10, 10);
 }

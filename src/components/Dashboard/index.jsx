@@ -25,6 +25,7 @@ class Dashboard extends Component {
             asesorSelected: '*',
             marcaSelected: '*',
             sucursalSelected: '*',
+            prioridadSelected: '*',
             parameterSearch: null,
             parameterEncontrado: false,
             pantallalista: false,
@@ -84,7 +85,17 @@ class Dashboard extends Component {
             this.setState({
                 asesorSelected: nextState.asesorSelected,
             });
-        }       
+        }
+        if(this.state.marcaSelected !== nextState.marcaSelected){
+            this.setState({
+                marcaSelected: nextState.marcaSelected,
+            });
+        }
+        if(this.state.prioridadSelected !== nextState.prioridadSelected){
+            this.setState({
+                prioridadSelected: nextState.prioridadSelected,
+            });
+        }
     }
     
     shouldComponentUpdate(nextProps, nextState) {
@@ -223,7 +234,7 @@ class Dashboard extends Component {
 
         const aux_marcas = this.state.data.map((orden)=>{
             return orden.marca;
-        });
+        });       
         
         let sinRepetidos = lista.filter((valor, indiceActual, lista) => lista.indexOf(valor) === indiceActual);
         sinRepetidos.unshift('*');
@@ -231,7 +242,14 @@ class Dashboard extends Component {
         let sinRepetidosMarcas = aux_marcas.filter((valor,indiceActual, aux_marcas) => aux_marcas.indexOf(valor) === indiceActual);
         sinRepetidosMarcas.unshift('*');
 
+        const Prioritarios = [
+            {label: "TODOS", value: "*"},
+            {label: "PRIORITARIO", value: "SI"},
+            {label: "NORMAL", value: "NO"},
+        ]
+
         const Sucursales = [
+            {label: "TODOS", value: "*"},
             {label: "CASA CENTRAL", value: "CASA CENTRAL"},
             {label: "PDI MRA", value: "PDI MRA"},
             {label: "CDE", value: "CDE"},
@@ -252,8 +270,24 @@ class Dashboard extends Component {
 
         var ordenes_asesor,ordenes_mec,ordenes_cyp;
 
-        if(this.state.asesorSelected !== '*' && this.state.marcaSelected !== '*') {
+        if(this.state.asesorSelected !== '*' && this.state.marcaSelected !== '*' && this.state.prioridadSelected !== '*') {
+            //FILTRO:000 Asesor: !*, Marca: !* y Prioridad: !*
+            ordenes_mec = this.state.data.filter(orden => orden.seccion !== 'CYP' 
+                && orden.asesor === this.state.asesorSelected
+                && orden.marca === this.state.marcaSelected
+                && orden.prioridad === this.state.prioridadSelected);
             
+            ordenes_cyp = this.state.data.filter(orden => orden.seccion === 'CYP' 
+                && orden.asesor === this.state.asesorSelected
+                && orden.marca === this.state.marcaSelected
+                && orden.prioridad === this.state.prioridadSelected);
+
+            ordenes_asesor = this.state.data.filter(orden => orden.asesor === this.state.asesorSelected
+            && orden.marca === this.state.marcaSelected  
+            && orden.prioridad === this.state.prioridadSelected);            
+        }
+        else if(this.state.asesorSelected !== '*' && this.state.marcaSelected !== '*' && this.state.prioridadSelected === '*') {
+            //FILTRO:001 Asesor: !*, Marca: !* y Prioridad: *
             ordenes_mec = this.state.data.filter(orden => orden.seccion !== 'CYP' 
                 && orden.asesor === this.state.asesorSelected
                 && orden.marca === this.state.marcaSelected);
@@ -265,49 +299,97 @@ class Dashboard extends Component {
             ordenes_asesor = this.state.data.filter(orden => orden.asesor === this.state.asesorSelected
             && orden.marca === this.state.marcaSelected);            
         }
-        else if(this.state.asesorSelected !== '*' && this.state.marcaSelected === '*')
-        {
-            //FILTRO: Asesor: Seleccionado y Marca: TODOS
+        else if(this.state.asesorSelected !== '*' && this.state.marcaSelected === '*' && this.state.prioridadSelected !== '*'){
+            //FILTRO:010 Asesor: !*, Marca: * y Prioridad: !*
             ordenes_mec = this.state.data.filter(orden => orden.seccion !== 'CYP' 
-                && orden.asesor === this.state.asesorSelected);
-            ordenes_cyp = this.state.data.filter(orden => orden.seccion === 'CYP' 
-                && orden.asesor === this.state.asesorSelected);
+            && orden.asesor === this.state.asesorSelected
+            && orden.prioridad === this.state.prioridadSelected);
             
-            ordenes_asesor = this.state.data.filter(orden => orden.asesor === this.state.asesorSelected);            
+            ordenes_cyp = this.state.data.filter(orden => orden.seccion === 'CYP' 
+                && orden.asesor === this.state.asesorSelected
+                && orden.prioridad === this.state.prioridadSelected);
+
+            ordenes_asesor = this.state.data.filter(orden => orden.asesor === this.state.asesorSelected
+                && orden.prioridad === this.state.prioridadSelected);          
         }
-        else if(this.state.asesorSelected === '*' && this.state.marcaSelected !== '*')
+        else if(this.state.asesorSelected !== '*' && this.state.marcaSelected === '*' && this.state.prioridadSelected === '*'){
+            //FILTRO:011 Asesor: !*, Marca: * y Prioridad: *
+            ordenes_mec = this.state.data.filter(orden => orden.seccion !== 'CYP' 
+            && orden.asesor === this.state.asesorSelected);
+            
+            ordenes_cyp = this.state.data.filter(orden => orden.seccion === 'CYP' 
+                && orden.asesor === this.state.asesorSelected);
+
+            ordenes_asesor = this.state.data.filter(orden => orden.asesor === this.state.asesorSelected);          
+        }        
+        else if(this.state.asesorSelected === '*' && this.state.marcaSelected !== '*' && this.state.prioridadSelected !== '*')
         {
-            //FILTRO: Asesor: TODOS y Marca: Seleccionada
+            //FILTRO:100 Asesor: *, Marca: !* y Prioridad: !*
+            ordenes_mec = this.state.data.filter(orden => orden.seccion !== 'CYP' 
+                && orden.marca === this.state.marcaSelected
+                && orden.prioridad === this.state.prioridadSelected);
+
+            ordenes_cyp = this.state.data.filter(orden => orden.seccion === 'CYP' 
+                && orden.marca === this.state.marcaSelected
+                && orden.prioridad === this.state.prioridadSelected);
+
+            ordenes_asesor = this.state.data.filter(orden => orden.marca === this.state.marcaSelected
+                && orden.prioridad === this.state.prioridadSelected);            
+        }
+        else if(this.state.asesorSelected === '*' && this.state.marcaSelected !== '*' && this.state.prioridadSelected === '*')
+        {
+             //FILTRO:101 Asesor: *, Marca: !* y Prioridad: *
             ordenes_mec = this.state.data.filter(orden => orden.seccion !== 'CYP' 
                 && orden.marca === this.state.marcaSelected);
             ordenes_cyp = this.state.data.filter(orden => orden.seccion === 'CYP' 
                 && orden.marca === this.state.marcaSelected);
-
+            
             ordenes_asesor = this.state.data.filter(orden => orden.marca === this.state.marcaSelected);            
         }
-        else if(this.state.asesorSelected === '*' && this.state.marcaSelected === '*')
+        else if(this.state.asesorSelected === '*' && this.state.marcaSelected === '*' && this.state.prioridadSelected !== '*')
         {
-            //FILTRO: Asesor: TODOS y Marca: TODOS
+            //FILTRO:110 Asesor: TODOS, Marca: TODOS y Prioridad: 
+            ordenes_mec = this.state.data.filter(orden => orden.seccion !== 'CYP'
+            && orden.prioridad === this.state.prioridadSelected);
+
+            ordenes_cyp = this.state.data.filter(orden => orden.seccion === 'CYP'
+            && orden.prioridad === this.state.prioridadSelected);
+
+            ordenes_asesor = this.state.data.filter(orden => orden.prioridad === this.state.prioridadSelected);
+        }
+        else if(this.state.asesorSelected === '*' && this.state.marcaSelected === '*' && this.state.prioridadSelected === '*')
+        {
+            //FILTRO:111 Asesor: *, Marca: * y Prioridad: *
             ordenes_mec = this.state.data.filter(orden => orden.seccion !== 'CYP');
             ordenes_cyp = this.state.data.filter(orden => orden.seccion === 'CYP');
 
             ordenes_asesor = this.state.data;
         }
+        
+
+        console.info("SELECTED: ",this.state.asesorSelected+''+this.state.marcaSelected+''+this.state.prioridadSelected);
 
         return (            
             <div>
                 <div className="row">
+
+                    <div className="col-md-1">Prioridad: </div>
+                    <div className="col-md-2">
+                        <Select options={Prioritarios} defaultValue={Prioritarios.find(()=>'*')} onChange={(valor) => {
+                            this.setState({prioridadSelected:valor.value}) //cambio el estado de sucursalSelected por el elegido
+                        }}/>
+                    </div>
                                 
-                    <div className="col-md-1">Sucursal: </div>
+                    {/* <div className="col-md-1">Sucursal: </div>
                     <div className="col-md-2">
                         <Select options={Sucursales} onChange={(valor) => {
                             this.setState({sucursalSelected:valor.value}) //cambio el estado de sucursalSelected por el elegido
                         }}/>
-                    </div>
+                    </div> */}
                     
                     <div className="col-md-1">Asesor: </div>
                     <div className="col-md-2">
-                        <Select options={Asesores} onChange={(valor) => {
+                        <Select options={Asesores} defaultValue={Asesores.find(()=>'*')} onChange={(valor) => {
                             this.setState({asesorSelected:valor.value}) //cambio el estado de asesorSelected por el elegido
                         }}/>
                     </div>
@@ -316,7 +398,7 @@ class Dashboard extends Component {
                         <text>Marca:</text>                      
                     </div>
                     <div className="col-md-2">
-                        <Select options={Marcas} onChange={(valor) =>{
+                        <Select options={Marcas} defaultValue={Marcas.find(()=>'*')} onChange={(valor) =>{
                             this.setState({marcaSelected:valor.value})  //cambio el estado de marcaSelected por el elegido
                         }} />
                     </div>
