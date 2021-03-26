@@ -1,62 +1,86 @@
 [
     {
+        "day": 2,
         "type": "entries",
         "day_week_name": "LUNES",
-        "count": 57
+        "count": "39"
     },
     {
-        "type": "entries",
-        "day_week_name": "MARTES",
-        "count": 31
-    },
-    {
-        "type": "entries",
-        "day_week_name": "MIERCOLES",
-        "count": 31
-    },
-    {
-        "type": "entries",
-        "day_week_name": "JUEVES",
-        "count": 31
-    },
-    {
-        "type": "entries",
-        "day_week_name": "VIERNES",
-        "count": 31
-    },
-    {
-        "type": "entries",
-        "day_week_name": "SABADOS",
-        "count": 31
-    },
-    {
-        "type": "outputs",
+        "day": 2,
+        "type": "outputs_cw",
         "day_week_name": "LUNES",
-        "count": 19
+        "count": "8"
     },
     {
-        "type": "outputs",
+        "day": 2,
+        "type": "outputs_pw",
+        "day_week_name": "LUNES",
+        "count": "15"
+    },
+    {
+        "day": 3,
+        "type": "entries",
         "day_week_name": "MARTES",
-        "count": 5
+        "count": "51"
     },
     {
-        "type": "outputs",
+        "day": 3,
+        "type": "outputs_cw",
+        "day_week_name": "MARTES",
+        "count": "28"
+    },
+    {
+        "day": 3,
+        "type": "outputs_pw",
+        "day_week_name": "MARTES",
+        "count": "6"
+    },
+    {
+        "day": 4,
+        "type": "entries",
         "day_week_name": "MIERCOLES",
-        "count": 5
+        "count": "37"
     },
     {
-        "type": "outputs",
+        "day": 4,
+        "type": "outputs_cw",
+        "day_week_name": "MIERCOLES",
+        "count": "24"
+    },
+    {
+        "day": 4,
+        "type": "outputs_pw",
+        "day_week_name": "MIERCOLES",
+        "count": "9"
+    },
+    {
+        "day": 5,
+        "type": "entries",
         "day_week_name": "JUEVES",
-        "count": 5
+        "count": "32"
     },
     {
-        "type": "outputs",
+        "day": 5,
+        "type": "outputs_cw",
+        "day_week_name": "JUEVES",
+        "count": "19"
+    },
+    {
+        "day": 5,
+        "type": "outputs_pw",
+        "day_week_name": "JUEVES",
+        "count": "4"
+    },
+    {
+        "day": 6,
+        "type": "entries",
         "day_week_name": "VIERNES",
-        "count": 5
+        "count": "14"
     },
     {
-        "type": "outputs",
-        "day_week_name": "SABADOS",
-        "count": 5
+        "day": 6,
+        "type": "outputs_cw",
+        "day_week_name": "VIERNES",
+        "count": "5"
     }
 ]
