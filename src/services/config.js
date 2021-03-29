@@ -5,4 +5,4 @@ const API = axios.create({
     baseURL: apiUrl,
 });
 
-export default API;
+export { API }

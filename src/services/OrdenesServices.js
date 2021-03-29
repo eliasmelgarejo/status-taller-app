@@ -1,10 +1,12 @@
-import API from './config';
+import { API } from './config';
 import { ORDENES_ENDPOINTS } from './endpoints';
 
+export const jwtToken = localStorage.getItem("authorization");
+
 const OrdenesServices = {
-    getOrdenesSinSalida: () => new Promise(
+    getOrdenesSinSalida: (jwtToken) => new Promise(
         (resolve, reject) => {
-            API.get(ORDENES_ENDPOINTS.ORDENES)
+            API.get(ORDENES_ENDPOINTS.ORDENES, { headers: { "Authorization": `${jwtToken}` } })
                 .then(
                     res => res.data
                 )
@@ -16,9 +18,9 @@ const OrdenesServices = {
                 )
         }
     ),
-    getResumenESOrdenes: () => new Promise(
+    getResumenESOrdenes: (jwtToken) => new Promise(
         (resolve, reject) => {
-            API.get(ORDENES_ENDPOINTS.RESUMEN_SEMANAL)
+            API.get(ORDENES_ENDPOINTS.RESUMEN_SEMANAL, { headers: { "Authorization": `${jwtToken}` } })
                 .then(
                     res => res.data
                 )

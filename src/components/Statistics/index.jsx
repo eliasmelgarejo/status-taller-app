@@ -89,6 +89,68 @@ class Statistics extends Component {
             },
         }
     }
+    
+    getResumen2(){
+        var result=DATOS2;
+        console.log("getResumen => OrdenesServices.getResumenESOrdenes",result);
+        var xxx = result.filter(x=>x.type==='entries');
+        var yyy = result.filter(x=>x.type==='outputs_cw');
+        var zzz = result.filter(x =>x.type==='outputs_pw')
+        
+        console.log('xxx', xxx);
+        console.log('yyy', yyy);
+        console.log('zzz', zzz);
+
+        var entradas=[];
+        var salidascw = [];            
+        var salidaspw = [];
+        var _totalingresos=0,_totalegresoscw=0,_totalegresospw=0;
+        
+        xxx.forEach(function(elemento, indice, array) {
+            entradas.push(elemento.count);
+            _totalingresos += parseInt(elemento.count);
+        });
+
+        yyy.forEach(function(elemento, indice, array) {
+            salidascw.push(elemento.count);
+            _totalegresoscw += parseInt(elemento.count);
+        });
+
+        zzz.forEach(function(elemento, indice, array) {
+            salidaspw.push(elemento.count);
+            _totalegresospw += parseInt(elemento.count);
+        });
+
+        console.log("entradas",entradas);
+        console.log("salidas cw",salidascw);
+        console.log("salidas pw",salidaspw);
+        console.log("Total Ingresos EgresosCW EgresosPW",_totalingresos,_totalegresoscw,_totalegresospw);            
+
+        var newseries=[
+            {
+                name: "Entradas",
+                data: entradas
+            },
+            {
+                name: "SalidasCW",
+                data: salidascw
+            },
+            {
+                name: "SalidasPW",
+                data: salidaspw
+            }
+        ];
+
+        this.setState({
+            data: result,
+            isLoading: true,
+            series: newseries,
+            totalIngresos: _totalingresos,
+            totalEgresoscw: _totalegresoscw,
+            totalEgresospw: _totalegresospw
+        });
+            
+    }
 
     getResumen(){
         OrdenesServices.getResumenESOrdenes()
