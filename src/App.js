@@ -85,7 +85,7 @@ class App extends Component {
                     </Nav.Link> */}
                   </Link>
                   <Link style={navStyle} to='/'>
-                    <li style={navLiStyle}>{'Logout '}</li>
+                    <li style={navLiStyle}>{'Home '}</li>
                     {/* <Nav.Link>{'Logout'}</Nav.Link> */}
                   </Link>
                 </ul>
@@ -123,10 +123,17 @@ class App extends Component {
     const MainDashboard = () => {
       return (
         <>
+          <header>
+            <Menu></Menu>
+          </header>
           <br></br>
           <main className="flex justify-around" id="Main">
             <Dashboard></Dashboard>
           </main>
+          <br></br>
+          <footer className="bg-primary p-2 text-xs flex justify-around items-center bg-gray-900 text-white">
+            <div>Copyright © 2021 Censer Dpto. IT</div>
+          </footer>
         </>
       );
     }
@@ -134,10 +141,17 @@ class App extends Component {
     const MainStatistics = () => {
       return (
         <>
+          <header>
+            <Menu></Menu>
+          </header>
           <br></br>
           <main className="flex justify-around" id="Main">
             <Statistics></Statistics>
           </main>
+          <br></br>
+          <footer className="bg-primary p-2 text-xs flex justify-around items-center bg-gray-900 text-white">
+            <div>Copyright © 2021 Censer Dpto. IT</div>
+          </footer>
         </>
       );
     }
@@ -146,7 +160,7 @@ class App extends Component {
       return (
         <>
           <br></br>
-          <div className="panel" style={{ display: 'flex', justifyContent: 'center', }}>
+          <div className="container" style={{ display: 'flex', justifyContent: 'center' }}>
             <div className="column col-md-4" style={{ background: '#007bff', color: "white" }}>
               <div className="auth-wrapper">
                 <div className="auth-inner">
@@ -155,6 +169,7 @@ class App extends Component {
               </div>
             </div>
           </div>
+
         </>
       );
     }
@@ -162,32 +177,33 @@ class App extends Component {
     const MainHome = () => {
       return (
         <>
+          <header>
+            <Menu></Menu>
+          </header>
           <br />
-          <div className="panel" style={{ display: 'flex', justifyContent: 'center', }}>
-            <div className="column col-md-4" style={{ background: '#007bff', color: "white" }}>
-              <HomeComponet></HomeComponet>
-            </div>
+          <div className="container" style={{ display: 'flex', justifyContent: 'center' }}>
+            <HomeComponet></HomeComponet>
           </div>
+          <br></br>
+          <footer className="bg-primary p-2 text-xs flex justify-around items-center bg-gray-900 text-white">
+            <div>Copyright © 2021 Censer Dpto. IT</div>
+          </footer>
         </>
       );
     }
 
     return (
       <Router>
-        <div className="App Container">
-          <header>
-            <Menu></Menu>
-          </header>
+        <div className="App">
+
           <Switch>
-            <Route path="/" exact component={MainLogin} />
+            {/* <Route path="/" exact component={MainLogin} /> */}
+            <Route path="/" exact component={MainHome} />
             <Route path="/dashboard" component={MainDashboard} />
             <Route path="/statistics" component={MainStatistics} />
             <Route path="/home" component={MainHome} />
           </Switch>
-          <br></br>
-          <footer className="bg-primary p-2 text-xs flex justify-around items-center bg-gray-900 text-white">
-            <div>Copyright © 2021 Censer Dpto. IT</div>
-          </footer>
+
         </div>
       </Router>
     );
