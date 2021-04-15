@@ -4,9 +4,9 @@ import { ORDENES_ENDPOINTS } from './endpoints';
 export const jwtToken = localStorage.getItem("authorization");
 
 const OrdenesServices = {
-    getOrdenesSinSalida: (jwtToken) => new Promise(
+    getOrdenesSinSalida: () => new Promise(
         (resolve, reject) => {
-            API.get(ORDENES_ENDPOINTS.ORDENES, { headers: { "Authorization": `${jwtToken}` } })
+            API.get(ORDENES_ENDPOINTS.ORDENES)
                 .then(
                     res => res.data
                 )
@@ -18,9 +18,9 @@ const OrdenesServices = {
                 )
         }
     ),
-    getResumenESOrdenes: (jwtToken) => new Promise(
+    getResumenESOrdenes: () => new Promise(
         (resolve, reject) => {
-            API.get(ORDENES_ENDPOINTS.RESUMEN_SEMANAL, { headers: { "Authorization": `${jwtToken}` } })
+            API.get(ORDENES_ENDPOINTS.RESUMEN_SEMANAL)
                 .then(
                     res => res.data
                 )
