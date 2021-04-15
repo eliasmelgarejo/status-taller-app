@@ -412,11 +412,13 @@ class Dashboard extends Component {
                         <ExcelFile element={<button><img src={iconExcel}/></button>}>
                             <ExcelSheet data={this.state.data} name="Status Taller">
                                 <ExcelColumn label="Sucursal" value="sucursal"/>
+                                <ExcelColumn label="Prioridad" value="prioridad"/>
                                 <ExcelColumn label="Seccion" value="seccion"/>
                                 <ExcelColumn label="Asesor Money" value="asesor"/>
                                 <ExcelColumn label="Orden" value="nroorden"/>
                                 <ExcelColumn label="Apertura" value="apertura"/>
                                 <ExcelColumn label="Chasis" value="chasis"/>
+                                <ExcelColumn label="Chapa" value="chapa"/>
                                 <ExcelColumn label="Marca" value="marca"/>
                                 <ExcelColumn label="Tipo Servicio" value="tiposervicio"/>
                                 <ExcelColumn label="Dias Taller" value="diasentaller"/>
