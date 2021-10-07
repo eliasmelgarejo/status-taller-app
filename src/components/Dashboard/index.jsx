@@ -31,6 +31,7 @@ class Dashboard extends Component {
             parameterEncontrado: false,
             pantallalista: false,
             primeraVez: true,
+            sucursal: '',
         };
     }
 
@@ -61,6 +62,27 @@ class Dashboard extends Component {
             .then(
                 result => {
                     console.log('getOrdenes OrdenesServices.getOrdenesSinSalida...', result);
+                    this.setState({
+                        data: result,
+                        isLoading: true,
+                        _cantidad_mec: result.filter(orden => orden.seccion !== 'CYP').length,
+                        _cantidad_cyp: result.filter(orden => orden.seccion === 'CYP').length,
+                    });
+                }
+            )
+            .catch(err => {
+                this.setState({
+                    error: err.message,
+                    isLoading: false
+                });
+            })
+    }
+
+    getOrdenesPorSucursal() {
+        OrdenesServices.getOrdenesPorSucursal('CR CENSER')
+            .then(
+                result => {
+                    console.log('getOrdenes OrdenesServices.getOrdenesPorSucursal...', result);
                     this.setState({
                         data: result,
                         isLoading: true,
@@ -130,8 +152,8 @@ class Dashboard extends Component {
 
             console.log(target.value);
 
-            console.log('MyArray  Includes NRO ORDEN');
-            console.info('Encontreo Orden o Chasis o Chapa', listadeordenes.includes(target.value.toUpperCase()),
+            console.log('MyArray Includes NRO ORDEN');
+            console.info('Encontre Orden o Chasis o Chapa', listadeordenes.includes(target.value.toUpperCase()),
                 listadechasis.includes(target.value.toUpperCase()), listadechapas.includes(target.value.toUpperCase()));
 
             var p_ot;
@@ -226,6 +248,11 @@ class Dashboard extends Component {
             );
         }
 
+        //Cargando la lista de Sucursales de manera dinámica
+        //solo las sucursales que figuran en el listado general
+        const lista_sucursales = this.state.data.map((orden) => {
+            return orden.sucursal;
+        });
 
         //Carganmdo la lista de Asesores de manera dinámica
         //solo los Asesores que figuran en el listado general
@@ -243,20 +270,26 @@ class Dashboard extends Component {
         let sinRepetidosMarcas = aux_marcas.filter((valor, indiceActual, aux_marcas) => aux_marcas.indexOf(valor) === indiceActual);
         sinRepetidosMarcas.unshift('*');
 
+        let sinRepetidosSucursales = lista_sucursales.filter((valor,indiceActual,lista_sucursales) => lista_sucursales.indexOf(valor) === indiceActual);
+
         const Prioritarios = [
             { label: "TODOS", value: "*" },
             { label: "PRIORITARIO", value: "SI" },
             { label: "NORMAL", value: "NO" },
         ]
 
-        const Sucursales = [
-            { label: "TODOS", value: "*" },
-            { label: "CASA CENTRAL", value: "CASA CENTRAL" },
-            { label: "PDI MRA", value: "PDI MRA" },
-            { label: "CDE", value: "CDE" },
-            { label: "ENCARNACION", value: "ENCARNACION" },
-            { label: "MOTOS", value: "MOTOS" },
-        ]
+        const Sucursales = sinRepetidosSucursales.map((o) => {
+            return { label:o, value: o};
+        });
+
+        // = [
+        //    { label: "TODOS", value: "*" },
+        //    { label: "CASA CENTRAL", value: "CASA CENTRAL" },
+        //    { label: "PDI MRA", value: "PDI MRA" },
+        //    { label: "CDE", value: "CDE" },
+        //    { label: "ENCARNACION", value: "ENCARNACION" },
+        //    { label: "MOTOS", value: "MOTOS" },
+        //]
 
         const Asesores = sinRepetidos.map((o) => {
             if (o === "*") return { label: "TODOS", value: o };

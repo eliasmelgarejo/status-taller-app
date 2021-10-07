@@ -31,6 +31,18 @@ const OrdenesServices = {
                     err => reject(err)
                 )
         }
+    ),
+    getOrdenesPorSucursal: (sucursal) => Promise(
+        API.get(ORDENES_ENDPOINTS.ORDENES_POR_SUCURSAL + '?sucursal=' + sucursal)
+            .then(
+                res => res.data
+            )
+            .then(
+                data => resolve(data)
+            )
+            .catch(
+                err => reject(err)
+            )
     )
 }
 

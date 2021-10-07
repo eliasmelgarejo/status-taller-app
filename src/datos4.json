@@ -1,0 +1,205 @@
+[
+    {
+        "sucursal": "MOTOS",
+        "day": 2,
+        "type": "entries   ",
+        "day_week_name": "Lunes    ",
+        "count": "3"
+    },
+    {
+        "sucursal": "CR CENSER",
+        "day": 2,
+        "type": "entries   ",
+        "day_week_name": "Lunes    ",
+        "count": "70"
+    },
+    {
+        "sucursal": "CR CENSER",
+        "day": 2,
+        "type": "outputs_cw",
+        "day_week_name": "Lunes    ",
+        "count": "8"
+    },
+    {
+        "sucursal": "CR CENSER",
+        "day": 2,
+        "type": "outputs_pw",
+        "day_week_name": "Lunes    ",
+        "count": "9"
+    },
+    {
+        "sucursal": "ENCARNACIÓN",
+        "day": 2,
+        "type": "entries   ",
+        "day_week_name": "Lunes    ",
+        "count": "3"
+    },
+    {
+        "sucursal": "DEPOSITO PDI",
+        "day": 2,
+        "type": "entries   ",
+        "day_week_name": "Lunes    ",
+        "count": "2"
+    },
+    {
+        "sucursal": "DEPOSITO PDI",
+        "day": 2,
+        "type": "outputs_pw",
+        "day_week_name": "Lunes    ",
+        "count": "1"
+    },
+    {
+        "sucursal": "CIUDAD DEL ESTE",
+        "day": 2,
+        "type": "entries   ",
+        "day_week_name": "Lunes    ",
+        "count": "9"
+    },
+    {
+        "sucursal": "MOTOS",
+        "day": 3,
+        "type": "entries   ",
+        "day_week_name": "Martes   ",
+        "count": "5"
+    },
+    {
+        "sucursal": "CR CENSER",
+        "day": 3,
+        "type": "entries   ",
+        "day_week_name": "Martes   ",
+        "count": "51"
+    },
+    {
+        "sucursal": "CR CENSER",
+        "day": 3,
+        "type": "outputs_cw",
+        "day_week_name": "Martes   ",
+        "count": "27"
+    },
+    {
+        "sucursal": "CR CENSER",
+        "day": 3,
+        "type": "outputs_pw",
+        "day_week_name": "Martes   ",
+        "count": "23"
+    },
+    {
+        "sucursal": "ENCARNACIÓN",
+        "day": 3,
+        "type": "entries   ",
+        "day_week_name": "Martes   ",
+        "count": "3"
+    },
+    {
+        "sucursal": "ENCARNACIÓN",
+        "day": 3,
+        "type": "outputs_cw",
+        "day_week_name": "Martes   ",
+        "count": "3"
+    },
+    {
+        "sucursal": "ENCARNACIÓN",
+        "day": 3,
+        "type": "outputs_pw",
+        "day_week_name": "Martes   ",
+        "count": "10"
+    },
+    {
+        "sucursal": "DEPOSITO PDI",
+        "day": 3,
+        "type": "outputs_pw",
+        "day_week_name": "Martes   ",
+        "count": "1"
+    },
+    {
+        "sucursal": "CIUDAD DEL ESTE",
+        "day": 3,
+        "type": "entries   ",
+        "day_week_name": "Martes   ",
+        "count": "12"
+    },
+    {
+        "sucursal": "",
+        "day": 4,
+        "type": "entries   ",
+        "day_week_name": "Miercoles",
+        "count": "0"
+    },
+    {
+        "sucursal": "",
+        "day": 4,
+        "type": "outputs_cw",
+        "day_week_name": "Miercoles",
+        "count": "0"
+    },
+    {
+        "sucursal": "",
+        "day": 4,
+        "type": "outputs_pw",
+        "day_week_name": "Miercoles",
+        "count": "0"
+    },
+    {
+        "sucursal": "",
+        "day": 5,
+        "type": "entries   ",
+        "day_week_name": "Jueves   ",
+        "count": "0"
+    },
+    {
+        "sucursal": "",
+        "day": 5,
+        "type": "outputs_cw",
+        "day_week_name": "Jueves   ",
+        "count": "0"
+    },
+    {
+        "sucursal": "",
+        "day": 5,
+        "type": "outputs_pw",
+        "day_week_name": "Jueves   ",
+        "count": "0"
+    },
+    {
+        "sucursal": "",
+        "day": 6,
+        "type": "entries   ",
+        "day_week_name": "Viernes  ",
+        "count": "0"
+    },
+    {
+        "sucursal": "",
+        "day": 6,
+        "type": "outputs_cw",
+        "day_week_name": "Viernes  ",
+        "count": "0"
+    },
+    {
+        "sucursal": "",
+        "day": 6,
+        "type": "outputs_pw",
+        "day_week_name": "Viernes  ",
+        "count": "0"
+    },
+    {
+        "sucursal": "",
+        "day": 7,
+        "type": "entries   ",
+        "day_week_name": "Sabado   ",
+        "count": "0"
+    },
+    {
+        "sucursal": "",
+        "day": 7,
+        "type": "outputs_cw",
+        "day_week_name": "Sabado   ",
+        "count": "0"
+    },
+    {
+        "sucursal": "",
+        "day": 7,
+        "type": "outputs_pw",
+        "day_week_name": "Sabado   ",
+        "count": "0"
+    }
+]

@@ -1,6 +1,7 @@
 
 const ORDENES_ENDPOINTS = {
-    ORDENES: '/api/ordenes', //ordens sin salida para pruebas
+    ORDENES: '/api/ordenes', //ordenes sin salida para pruebas
+    ORDENES_POR_SUCURSAL: '/api/ordenesporsucursal', //ordenes por sucursal
     RESUMEN_SEMANAL: '/api/resumensemana', //resumen semanal
 
 }
