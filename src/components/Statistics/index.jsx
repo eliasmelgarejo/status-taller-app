@@ -17,64 +17,6 @@ class Statistics extends Component {
             sucursalSelected:'*',
             listadodesucursales: [],
 
-            options: {
-                chart: {
-                    height: 500,
-                    type: 'line',
-                    dropShadow: {
-                        enabled: true,
-                        color: '#000',
-                        top: 18,
-                        left: 7,
-                        blur: 10,
-                        opacity: 0.2
-                    },
-                    toolbar: {
-                        show: false
-                    }
-                },
-                colors: ['#77B6EA', '#545454', '#684E28'],
-                dataLabels: {
-                    enabled: true,
-                },
-                stroke: {
-                    curve: 'smooth'
-                },
-                title: {
-                    text: 'Movimiento de E/S vehículos Taller',
-                    align: 'left'
-                },
-                grid: {
-                    borderColor: '#e7e7e7',
-                    row: {
-                        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-                        opacity: 0.5
-                    },
-                },
-                markers: {
-                    size: 1
-                },
-                xaxis: {
-                    categories: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-                    title: {
-                        text: 'Días'
-                    }
-                },
-                yaxis: {
-                    title: {
-                        text: 'Aperturadas'
-                    },
-                    min: 0,
-                    max: 70
-                },
-                legend: {
-                    position: 'top',
-                    horizontalAlign: 'right',
-                    floating: true,
-                    offsetY: -25,
-                    offsetX: -5
-                }
-            },
         }
     }
     
@@ -209,6 +151,66 @@ class Statistics extends Component {
                 }
             ];
 
+            var options = {
+                chart: {
+                    height: 500,
+                    type: 'line',
+                    dropShadow: {
+                        enabled: true,
+                        color: '#000',
+                        top: 18,
+                        left: 7,
+                        blur: 10,
+                        opacity: 0.2
+                    },
+                    toolbar: {
+                        show: false
+                    }
+                },
+                colors: ['#77B6EA', '#545454', '#684E28'],
+                dataLabels: {
+                    enabled: true,
+                },
+                stroke: {
+                    curve: 'smooth'
+                },
+                title: {
+                    text: 'Movimiento de E/S vehículos Taller',
+                    align: 'left'
+                },
+                grid: {
+                    borderColor: '#e7e7e7',
+                    row: {
+                        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                        opacity: 0.5
+                    },
+                },
+                markers: {
+                    size: 1
+                },
+                xaxis: {
+                    categories: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                    title: {
+                        text: 'Días'
+                    }
+                },
+                yaxis: {
+                    title: {
+                        text: 'Aperturadas'
+                    },
+                    min: 0,
+                    max: 70
+                },
+                legend: {
+                    position: 'top',
+                    horizontalAlign: 'right',
+                    floating: true,
+                    offsetY: -25,
+                    offsetX: -5
+                }
+            }
+
+
             return(
                 <Container
                     style={{
@@ -228,7 +230,7 @@ class Statistics extends Component {
                             </div>
                             <div className="mixed-chart">
                                 <Chart
-                                    options={this.state.options}
+                                    options={options}
                                     series={series}
                                     type="line"
                                     width="100%"
