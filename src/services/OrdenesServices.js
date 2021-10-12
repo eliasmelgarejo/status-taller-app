@@ -32,18 +32,34 @@ const OrdenesServices = {
                 )
         }
     ),
-    getOrdenesPorSucursal: (sucursal) => Promise(
-        API.get(ORDENES_ENDPOINTS.ORDENES_POR_SUCURSAL + '?sucursal=' + sucursal)
-            .then(
-                res => res.data
-            )
-            .then(
-                data => resolve(data)
-            )
-            .catch(
-                err => reject(err)
-            )
-    )
+    getOrdenesPorSucursal: (sucursal) => new Promise(
+        (resolve, reject) => {
+            API.get(ORDENES_ENDPOINTS.ORDENES_POR_SUCURSAL + '?sucursal=' + sucursal)
+                .then(
+                    res => res.data
+                )
+                .then(
+                    data => resolve(data)
+                )
+                .catch(
+                    err => reject(err)
+                )
+        }
+    ),
+    getSucursalesActivas: () => new Promise(
+        (resolve, reject) => {
+            API.get(ORDENES_ENDPOINTS.SUCURSALES)
+                .then(
+                    res => res.data
+                )
+                .then(
+                    data => resolve(data)
+                )
+                .catch(
+                    err => reject(err)
+                )
+        }
+    ),
 }
 
 export default OrdenesServices;

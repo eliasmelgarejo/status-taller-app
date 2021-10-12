@@ -25,13 +25,12 @@ class Dashboard extends Component {
             error: null,
             asesorSelected: '*',
             marcaSelected: '*',
-            sucursalSelected: '*',
+            sucursalSelected: 'CR CENSER',
             prioridadSelected: '*',
             parameterSearch: null,
             parameterEncontrado: false,
             pantallalista: false,
             primeraVez: true,
-            sucursal: '',
         };
     }
 
@@ -40,6 +39,11 @@ class Dashboard extends Component {
         this.setState({ isLoading: false });
         //this._getDataAPI2();
         this.getOrdenes();
+        console.log('componentDidMount....');
+        
+        console.log('console.info(this.state.data.indexOf(0));');
+        console.info(this.state.data.indexOf(0));
+
         this.setState({
             parameterSearch: this.state.data.indexOf(0),
             pantallalista: true,
@@ -78,8 +82,8 @@ class Dashboard extends Component {
             })
     }
 
-    getOrdenesPorSucursal() {
-        OrdenesServices.getOrdenesPorSucursal('CR CENSER')
+    getOrdenesPorSucursal(sucursal) {
+        OrdenesServices.getOrdenesPorSucursal(sucursal)
             .then(
                 result => {
                     console.log('getOrdenes OrdenesServices.getOrdenesPorSucursal...', result);
@@ -98,11 +102,15 @@ class Dashboard extends Component {
                 });
             })
     }
+   
 
     componentWillUpdate(nextProps, nextState) {
         console.log('Dashboard2 componentWillUpdate');
         console.log('this.state.asesorSelected', this.state.asesorSelected);
         console.log('nextState.asesorSelected', nextState.asesorSelected);
+
+        console.log('this.state.sucursalSelected', this.state.sucursalSelected);
+        console.log('nextState.sucursalSelected', nextState.sucursalSelected);
 
         if (this.state.asesorSelected !== nextState.asesorSelected) {
             this.setState({
@@ -117,6 +125,11 @@ class Dashboard extends Component {
         if (this.state.prioridadSelected !== nextState.prioridadSelected) {
             this.setState({
                 prioridadSelected: nextState.prioridadSelected,
+            });
+        }
+        if(this.state.sucursalSelected !== nextState.sucursalSelected) {
+            this.setState({
+                sucursalSelected: nextState.sucursalSelected,
             });
         }
     }
@@ -182,7 +195,7 @@ class Dashboard extends Component {
 
     render() {
 
-        if (this.setState.error) {
+        if (this.state.error) {
             return <p>{this.state.error.message}</p>
         }
 
@@ -198,13 +211,13 @@ class Dashboard extends Component {
             filtradas = _ordenes_asesor;
 
             //lista de mec 
-            _mec_pendientes = filtradas.filter(orden => orden.seccion !== 'CYP' && orden.estado === 'PENDIENTE');
-            _mec_proceso = filtradas.filter(orden => orden.seccion !== 'CYP' && orden.estado === 'PROCESO');
-            _mec_terminados = filtradas.filter(orden => orden.seccion !== 'CYP' && orden.estado === 'TERMINADO');
+            _mec_pendientes = filtradas.filter(orden => orden.seccion !== 'CYP' && orden.estado === 'PENDIENTE' && orden.sucursal === this.state.sucursalSelected);
+            _mec_proceso = filtradas.filter(orden => orden.seccion !== 'CYP' && orden.estado === 'PROCESO' && orden.sucursal === this.state.sucursalSelected);
+            _mec_terminados = filtradas.filter(orden => orden.seccion !== 'CYP' && orden.estado === 'TERMINADO' && orden.sucursal === this.state.sucursalSelected);
             //lista de cyp
-            _cyp_pendientes = filtradas.filter(orden => orden.seccion === 'CYP' && orden.estado === 'PENDIENTE');
-            _cyp_proceso = filtradas.filter(orden => orden.seccion === 'CYP' && orden.estado === 'PROCESO');
-            _cyp_terminados = filtradas.filter(orden => orden.seccion === 'CYP' && orden.estado === 'TERMINADO');
+            _cyp_pendientes = filtradas.filter(orden => orden.seccion === 'CYP' && orden.estado === 'PENDIENTE' && orden.sucursal === this.state.sucursalSelected);
+            _cyp_proceso = filtradas.filter(orden => orden.seccion === 'CYP' && orden.estado === 'PROCESO' && orden.sucursal === this.state.sucursalSelected);
+            _cyp_terminados = filtradas.filter(orden => orden.seccion === 'CYP' && orden.estado === 'TERMINADO' && orden.sucursal === this.state.sucursalSelected);
 
             return (
                 <div className='row'>
@@ -271,25 +284,22 @@ class Dashboard extends Component {
         sinRepetidosMarcas.unshift('*');
 
         let sinRepetidosSucursales = lista_sucursales.filter((valor,indiceActual,lista_sucursales) => lista_sucursales.indexOf(valor) === indiceActual);
+        // sinRepetidosSucursales.unshift('*');
 
         const Prioritarios = [
             { label: "TODOS", value: "*" },
             { label: "PRIORITARIO", value: "SI" },
             { label: "NORMAL", value: "NO" },
         ]
+             
+        // console.log('this.state.sucursal #####');
+        // console.info(this.state.sucursal);
 
         const Sucursales = sinRepetidosSucursales.map((o) => {
-            return { label:o, value: o};
+            if (o === "*") return { label: "TODOS", value: o };
+            return { label: o, value: o };
         });
-
-        // = [
-        //    { label: "TODOS", value: "*" },
-        //    { label: "CASA CENTRAL", value: "CASA CENTRAL" },
-        //    { label: "PDI MRA", value: "PDI MRA" },
-        //    { label: "CDE", value: "CDE" },
-        //    { label: "ENCARNACION", value: "ENCARNACION" },
-        //    { label: "MOTOS", value: "MOTOS" },
-        //]
+              
 
         const Asesores = sinRepetidos.map((o) => {
             if (o === "*") return { label: "TODOS", value: o };
@@ -304,100 +314,133 @@ class Dashboard extends Component {
 
         var ordenes_asesor, ordenes_mec, ordenes_cyp;
 
-        if (this.state.asesorSelected !== '*' && this.state.marcaSelected !== '*' && this.state.prioridadSelected !== '*') {
-            //FILTRO:000 Asesor: !*, Marca: !* y Prioridad: !*
+        if (this.state.asesorSelected !== '*' && this.state.marcaSelected !== '*' 
+        && this.state.prioridadSelected !== '*' && this.state.sucursalSelected !== '*') {
+            //FILTRO:000 Asesor: !*, Marca: !*, Prioridad: !* y Sucursal: !*
             ordenes_mec = this.state.data.filter(orden => orden.seccion !== 'CYP'
                 && orden.asesor === this.state.asesorSelected
                 && orden.marca === this.state.marcaSelected
-                && orden.prioridad === this.state.prioridadSelected);
+                && orden.prioridad === this.state.prioridadSelected
+                && orden.sucursal === this.state.sucursalSelected);
 
             ordenes_cyp = this.state.data.filter(orden => orden.seccion === 'CYP'
                 && orden.asesor === this.state.asesorSelected
                 && orden.marca === this.state.marcaSelected
-                && orden.prioridad === this.state.prioridadSelected);
+                && orden.prioridad === this.state.prioridadSelected
+                && orden.sucursal === this.state.sucursalSelected);
 
             ordenes_asesor = this.state.data.filter(orden => orden.asesor === this.state.asesorSelected
                 && orden.marca === this.state.marcaSelected
-                && orden.prioridad === this.state.prioridadSelected);
+                && orden.prioridad === this.state.prioridadSelected
+                && orden.sucursal === this.state.sucursalSelected);
         }
-        else if (this.state.asesorSelected !== '*' && this.state.marcaSelected !== '*' && this.state.prioridadSelected === '*') {
+        else if (this.state.asesorSelected !== '*' && this.state.marcaSelected !== '*' 
+        && this.state.prioridadSelected === '*' && this.state.sucursalSelected !== '*') {
             //FILTRO:001 Asesor: !*, Marca: !* y Prioridad: *
             ordenes_mec = this.state.data.filter(orden => orden.seccion !== 'CYP'
                 && orden.asesor === this.state.asesorSelected
-                && orden.marca === this.state.marcaSelected);
+                && orden.marca === this.state.marcaSelected
+                && orden.sucursal === this.state.sucursalSelected);
 
             ordenes_cyp = this.state.data.filter(orden => orden.seccion === 'CYP'
                 && orden.asesor === this.state.asesorSelected
-                && orden.marca === this.state.marcaSelected);
+                && orden.marca === this.state.marcaSelected
+                && orden.sucursal === this.state.sucursalSelected);
 
             ordenes_asesor = this.state.data.filter(orden => orden.asesor === this.state.asesorSelected
-                && orden.marca === this.state.marcaSelected);
+                && orden.marca === this.state.marcaSelected
+                && orden.sucursal === this.state.sucursalSelected);
         }
-        else if (this.state.asesorSelected !== '*' && this.state.marcaSelected === '*' && this.state.prioridadSelected !== '*') {
+        else if (this.state.asesorSelected !== '*' && this.state.marcaSelected === '*' 
+        && this.state.prioridadSelected !== '*' && this.state.sucursalSelected !== '*') {
             //FILTRO:010 Asesor: !*, Marca: * y Prioridad: !*
             ordenes_mec = this.state.data.filter(orden => orden.seccion !== 'CYP'
                 && orden.asesor === this.state.asesorSelected
-                && orden.prioridad === this.state.prioridadSelected);
+                && orden.prioridad === this.state.prioridadSelected
+                && orden.sucursal === this.state.sucursalSelected);
 
             ordenes_cyp = this.state.data.filter(orden => orden.seccion === 'CYP'
                 && orden.asesor === this.state.asesorSelected
-                && orden.prioridad === this.state.prioridadSelected);
+                && orden.prioridad === this.state.prioridadSelected
+                && orden.sucursal === this.state.sucursalSelected);
 
             ordenes_asesor = this.state.data.filter(orden => orden.asesor === this.state.asesorSelected
-                && orden.prioridad === this.state.prioridadSelected);
+                && orden.prioridad === this.state.prioridadSelected
+                && orden.sucursal === this.state.sucursalSelected);
         }
-        else if (this.state.asesorSelected !== '*' && this.state.marcaSelected === '*' && this.state.prioridadSelected === '*') {
+        else if (this.state.asesorSelected !== '*' && this.state.marcaSelected === '*' 
+        && this.state.prioridadSelected === '*' && this.state.sucursalSelected !== '*') {
             //FILTRO:011 Asesor: !*, Marca: * y Prioridad: *
             ordenes_mec = this.state.data.filter(orden => orden.seccion !== 'CYP'
-                && orden.asesor === this.state.asesorSelected);
+                && orden.asesor === this.state.asesorSelected
+                && orden.sucursal === this.state.sucursalSelected);
 
             ordenes_cyp = this.state.data.filter(orden => orden.seccion === 'CYP'
-                && orden.asesor === this.state.asesorSelected);
+                && orden.asesor === this.state.asesorSelected
+                && orden.sucursal === this.state.sucursalSelected);
 
-            ordenes_asesor = this.state.data.filter(orden => orden.asesor === this.state.asesorSelected);
+            ordenes_asesor = this.state.data.filter(orden => orden.asesor === this.state.asesorSelected
+                && orden.sucursal === this.state.sucursalSelected);
         }
-        else if (this.state.asesorSelected === '*' && this.state.marcaSelected !== '*' && this.state.prioridadSelected !== '*') {
+        else if (this.state.asesorSelected === '*' && this.state.marcaSelected !== '*' 
+        && this.state.prioridadSelected !== '*' && this.state.sucursalSelected !== '*') {
             //FILTRO:100 Asesor: *, Marca: !* y Prioridad: !*
             ordenes_mec = this.state.data.filter(orden => orden.seccion !== 'CYP'
                 && orden.marca === this.state.marcaSelected
-                && orden.prioridad === this.state.prioridadSelected);
+                && orden.prioridad === this.state.prioridadSelected
+                && orden.sucursal === this.state.sucursalSelected);
 
             ordenes_cyp = this.state.data.filter(orden => orden.seccion === 'CYP'
                 && orden.marca === this.state.marcaSelected
-                && orden.prioridad === this.state.prioridadSelected);
+                && orden.prioridad === this.state.prioridadSelected
+                && orden.sucursal === this.state.sucursalSelected);
 
             ordenes_asesor = this.state.data.filter(orden => orden.marca === this.state.marcaSelected
-                && orden.prioridad === this.state.prioridadSelected);
+                && orden.prioridad === this.state.prioridadSelected
+                && orden.sucursal === this.state.sucursalSelected);
         }
-        else if (this.state.asesorSelected === '*' && this.state.marcaSelected !== '*' && this.state.prioridadSelected === '*') {
+        else if (this.state.asesorSelected === '*' && this.state.marcaSelected !== '*' 
+        && this.state.prioridadSelected === '*' && this.state.sucursalSelected !== '*') {
             //FILTRO:101 Asesor: *, Marca: !* y Prioridad: *
             ordenes_mec = this.state.data.filter(orden => orden.seccion !== 'CYP'
-                && orden.marca === this.state.marcaSelected);
-            ordenes_cyp = this.state.data.filter(orden => orden.seccion === 'CYP'
-                && orden.marca === this.state.marcaSelected);
+                && orden.marca === this.state.marcaSelected
+                && orden.sucursal === this.state.sucursalSelected);
 
-            ordenes_asesor = this.state.data.filter(orden => orden.marca === this.state.marcaSelected);
+            ordenes_cyp = this.state.data.filter(orden => orden.seccion === 'CYP'
+                && orden.marca === this.state.marcaSelected
+                && orden.sucursal === this.state.sucursalSelected);
+
+            ordenes_asesor = this.state.data.filter(orden => orden.marca === this.state.marcaSelectedv
+                && orden.sucursal === this.state.sucursalSelected);
         }
-        else if (this.state.asesorSelected === '*' && this.state.marcaSelected === '*' && this.state.prioridadSelected !== '*') {
+        else if (this.state.asesorSelected === '*' && this.state.marcaSelected === '*' 
+        && this.state.prioridadSelected !== '*' && this.state.sucursalSelected !== '*') {
             //FILTRO:110 Asesor: TODOS, Marca: TODOS y Prioridad: 
             ordenes_mec = this.state.data.filter(orden => orden.seccion !== 'CYP'
-                && orden.prioridad === this.state.prioridadSelected);
+                && orden.prioridad === this.state.prioridadSelected
+                && orden.sucursal === this.state.sucursalSelected);
 
             ordenes_cyp = this.state.data.filter(orden => orden.seccion === 'CYP'
-                && orden.prioridad === this.state.prioridadSelected);
+                && orden.prioridad === this.state.prioridadSelected
+                && orden.sucursal === this.state.sucursalSelected);
 
-            ordenes_asesor = this.state.data.filter(orden => orden.prioridad === this.state.prioridadSelected);
+            ordenes_asesor = this.state.data.filter(orden => orden.prioridad === this.state.prioridadSelected
+                && orden.sucursal === this.state.sucursalSelected);
         }
-        else if (this.state.asesorSelected === '*' && this.state.marcaSelected === '*' && this.state.prioridadSelected === '*') {
+        else if (this.state.asesorSelected === '*' && this.state.marcaSelected === '*' 
+        && this.state.prioridadSelected === '*' && this.state.sucursalSelected !== '*') {
             //FILTRO:111 Asesor: *, Marca: * y Prioridad: *
-            ordenes_mec = this.state.data.filter(orden => orden.seccion !== 'CYP');
-            ordenes_cyp = this.state.data.filter(orden => orden.seccion === 'CYP');
+            ordenes_mec = this.state.data.filter(orden => orden.seccion !== 'CYP'
+            && orden.sucursal === this.state.sucursalSelected);
+
+            ordenes_cyp = this.state.data.filter(orden => orden.seccion === 'CYP'
+            && orden.sucursal === this.state.sucursalSelected);
 
             ordenes_asesor = this.state.data;
         }
 
 
-        console.info("SELECTED: ", this.state.asesorSelected + '' + this.state.marcaSelected + '' + this.state.prioridadSelected);
+        console.info("SELECTED: ", this.state.sucursalSelected +','+ this.state.asesorSelected + ',' + this.state.marcaSelected + ',' + this.state.prioridadSelected);
 
         return (
             <div>
@@ -410,12 +453,12 @@ class Dashboard extends Component {
                         }} />
                     </div>
 
-                    {/* <div className="col-md-1">Sucursal: </div>
+                    <div className="col-md-1">Sucursal: </div>
                     <div className="col-md-2">
                         <Select options={Sucursales} onChange={(valor) => {
                             this.setState({sucursalSelected:valor.value}) //cambio el estado de sucursalSelected por el elegido
                         }}/>
-                    </div> */}
+                    </div>
 
                     <div className="col-md-1">Asesor: </div>
                     <div className="col-md-2">
