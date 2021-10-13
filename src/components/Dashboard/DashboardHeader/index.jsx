@@ -31,7 +31,7 @@ class DashboardHeader extends Component {
             <div className='titleComponent'>
                 <div className='row'>
                     <div className='subTitleComponent'>
-                        Global - {this.state.h_total} 
+                        Global - {this.state.h_cantidad_mec + this.state.h_cantidad_cyp} 
                     </div>
                 </div>
                 <div className='row'>

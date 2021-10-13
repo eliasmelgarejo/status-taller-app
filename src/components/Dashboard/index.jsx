@@ -3,7 +3,7 @@ import DashboardHeader from './DashboardHeader/index';
 import Orden from './DashboardBody/Orden';
 import Select from 'react-select';
 import './style.css';
-import Datos from './../../datos.json';//datos de prueba
+import Datos from './../../datos3.json';//datos de prueba
 import iconExcel from './assets/excel_social_24.png';
 import PopupSearch from './PopupSearh';
 import ReactExport from "react-data-export";
@@ -25,7 +25,7 @@ class Dashboard extends Component {
             error: null,
             asesorSelected: '*',
             marcaSelected: '*',
-            sucursalSelected: 'CR CENSER',
+            sucursalSelected: '*',
             prioridadSelected: '*',
             parameterSearch: null,
             parameterEncontrado: false,
@@ -55,8 +55,8 @@ class Dashboard extends Component {
         this.setState({
             data: Datos,
             isLoading: true,
-            _cantidad_mec: Datos.filter(orden => orden.seccion !== 'CYP').length,
-            _cantidad_cyp: Datos.filter(orden => orden.seccion === 'CYP').length,
+            _cantidad_mec: 0, //Datos.filter(orden => orden.seccion !== 'CYP').length,
+            _cantidad_cyp: 0, //Datos.filter(orden => orden.seccion === 'CYP').length,
         });
 
     }
@@ -203,21 +203,21 @@ class Dashboard extends Component {
             return <p>Loading...</p>
         }
 
-        const DashboardBody2 = ({ _ordenes_asesor }) => {
+        const DashboardBody2 = ({ _ordenes_sucursal }) => {
             var filtradas = null;
             var _mec_pendientes = null, _mec_proceso = null, _mec_terminados = null,
                 _cyp_pendientes = null, _cyp_proceso = null, _cyp_terminados = null;
 
-            filtradas = _ordenes_asesor;
+            filtradas = _ordenes_sucursal;
 
             //lista de mec 
-            _mec_pendientes = filtradas.filter(orden => orden.seccion !== 'CYP' && orden.estado === 'PENDIENTE' && orden.sucursal === this.state.sucursalSelected);
-            _mec_proceso = filtradas.filter(orden => orden.seccion !== 'CYP' && orden.estado === 'PROCESO' && orden.sucursal === this.state.sucursalSelected);
-            _mec_terminados = filtradas.filter(orden => orden.seccion !== 'CYP' && orden.estado === 'TERMINADO' && orden.sucursal === this.state.sucursalSelected);
+            _mec_pendientes = filtradas.filter(orden => orden.seccion !== 'CYP' && orden.estado === 'PENDIENTE');
+            _mec_proceso = filtradas.filter(orden => orden.seccion !== 'CYP' && orden.estado === 'PROCESO');
+            _mec_terminados = filtradas.filter(orden => orden.seccion !== 'CYP' && orden.estado === 'TERMINADO');
             //lista de cyp
-            _cyp_pendientes = filtradas.filter(orden => orden.seccion === 'CYP' && orden.estado === 'PENDIENTE' && orden.sucursal === this.state.sucursalSelected);
-            _cyp_proceso = filtradas.filter(orden => orden.seccion === 'CYP' && orden.estado === 'PROCESO' && orden.sucursal === this.state.sucursalSelected);
-            _cyp_terminados = filtradas.filter(orden => orden.seccion === 'CYP' && orden.estado === 'TERMINADO' && orden.sucursal === this.state.sucursalSelected);
+            _cyp_pendientes = filtradas.filter(orden => orden.seccion === 'CYP' && orden.estado === 'PENDIENTE');
+            _cyp_proceso = filtradas.filter(orden => orden.seccion === 'CYP' && orden.estado === 'PROCESO');
+            _cyp_terminados = filtradas.filter(orden => orden.seccion === 'CYP' && orden.estado === 'TERMINADO');
 
             return (
                 <div className='row'>
@@ -284,7 +284,7 @@ class Dashboard extends Component {
         sinRepetidosMarcas.unshift('*');
 
         let sinRepetidosSucursales = lista_sucursales.filter((valor,indiceActual,lista_sucursales) => lista_sucursales.indexOf(valor) === indiceActual);
-        // sinRepetidosSucursales.unshift('*');
+        sinRepetidosSucursales.unshift('*');
 
         const Prioritarios = [
             { label: "TODOS", value: "*" },
@@ -312,7 +312,7 @@ class Dashboard extends Component {
         });
 
 
-        var ordenes_asesor, ordenes_mec, ordenes_cyp;
+        var ordenes_asesor=[], ordenes_mec=[], ordenes_cyp=[];
 
         if (this.state.asesorSelected !== '*' && this.state.marcaSelected !== '*' 
         && this.state.prioridadSelected !== '*' && this.state.sucursalSelected !== '*') {
@@ -398,7 +398,7 @@ class Dashboard extends Component {
             ordenes_asesor = this.state.data.filter(orden => orden.marca === this.state.marcaSelected
                 && orden.prioridad === this.state.prioridadSelected
                 && orden.sucursal === this.state.sucursalSelected);
-        }
+        } //no anda
         else if (this.state.asesorSelected === '*' && this.state.marcaSelected !== '*' 
         && this.state.prioridadSelected === '*' && this.state.sucursalSelected !== '*') {
             //FILTRO:101 Asesor: *, Marca: !* y Prioridad: *
@@ -410,7 +410,7 @@ class Dashboard extends Component {
                 && orden.marca === this.state.marcaSelected
                 && orden.sucursal === this.state.sucursalSelected);
 
-            ordenes_asesor = this.state.data.filter(orden => orden.marca === this.state.marcaSelectedv
+            ordenes_asesor = this.state.data.filter(orden => orden.marca === this.state.marcaSelected
                 && orden.sucursal === this.state.sucursalSelected);
         }
         else if (this.state.asesorSelected === '*' && this.state.marcaSelected === '*' 
@@ -427,6 +427,20 @@ class Dashboard extends Component {
             ordenes_asesor = this.state.data.filter(orden => orden.prioridad === this.state.prioridadSelected
                 && orden.sucursal === this.state.sucursalSelected);
         }
+        else if (this.state.asesorSelected === '*' && this.state.marcaSelected !== '*' 
+        && this.state.prioridadSelected === '*' && this.state.sucursalSelected !== '*') {
+            //FILTRO:111 Asesor: *, Marca: * y Prioridad: *
+            ordenes_mec = this.state.data.filter(orden => orden.seccion !== 'CYP'
+            && orden.marca === this.state.marcaSelected
+            && orden.sucursal === this.state.sucursalSelected);
+
+            ordenes_cyp = this.state.data.filter(orden => orden.seccion === 'CYP'
+            && orden.marca === this.state.marcaSelected
+            && orden.sucursal === this.state.sucursalSelected);
+
+            ordenes_asesor = this.state.data.filter(orden => orden.sucursal === this.state.sucursalSelected
+                && orden.marca === this.state.marcaSelected);
+        }
         else if (this.state.asesorSelected === '*' && this.state.marcaSelected === '*' 
         && this.state.prioridadSelected === '*' && this.state.sucursalSelected !== '*') {
             //FILTRO:111 Asesor: *, Marca: * y Prioridad: *
@@ -436,10 +450,47 @@ class Dashboard extends Component {
             ordenes_cyp = this.state.data.filter(orden => orden.seccion === 'CYP'
             && orden.sucursal === this.state.sucursalSelected);
 
-            ordenes_asesor = this.state.data;
+            ordenes_asesor = this.state.data.filter(orden => orden.sucursal === this.state.sucursalSelected);
+
+        }
+        else if (this.state.asesorSelected !== '*' && this.state.marcaSelected === '*' 
+        && this.state.prioridadSelected === '*' && this.state.sucursalSelected === '*') {
+            //FILTRO:111 Asesor: *, Marca: * y Prioridad: *
+            ordenes_mec = this.state.data.filter(orden => orden.seccion !== 'CYP'
+            && orden.asesor === this.state.asesorSelected);
+
+            ordenes_cyp = this.state.data.filter(orden => orden.seccion === 'CYP'
+            && orden.asesor === this.state.asesorSelected);
+
+            ordenes_asesor = this.state.data.filter(orden => orden.asesor === this.state.asesorSelected);
+
+        }
+        else if (this.state.asesorSelected === '*' && this.state.marcaSelected !== '*' 
+        && this.state.prioridadSelected === '*' && this.state.sucursalSelected === '*') {
+            //FILTRO:111 Asesor: *, Marca: * y Prioridad: *
+            ordenes_mec = this.state.data.filter(orden => orden.seccion !== 'CYP'
+            && orden.marca === this.state.marcaSelected);
+
+            ordenes_cyp = this.state.data.filter(orden => orden.seccion === 'CYP'
+            && orden.marca === this.state.marcaSelected);
+
+            ordenes_asesor = this.state.data.filter(orden => orden.marca === this.state.marcaSelected);
+
+        }
+        else if (this.state.asesorSelected === '*' && this.state.marcaSelected === '*' 
+        && this.state.prioridadSelected !== '*' && this.state.sucursalSelected === '*') {
+            //FILTRO:111 Asesor: *, Marca: * y Prioridad: *
+            ordenes_mec = this.state.data.filter(orden => orden.seccion !== 'CYP'
+            && orden.prioridad === this.state.prioridadSelected);
+
+            ordenes_cyp = this.state.data.filter(orden => orden.seccion === 'CYP'
+            && orden.prioridad === this.state.prioridadSelected);
+
+            ordenes_asesor = this.state.data.filter(orden => orden.prioridad === this.state.prioridadSelected);
+
         }
 
-
+        console.info(ordenes_asesor);
         console.info("SELECTED: ", this.state.sucursalSelected +','+ this.state.asesorSelected + ',' + this.state.marcaSelected + ',' + this.state.prioridadSelected);
 
         return (
@@ -455,7 +506,7 @@ class Dashboard extends Component {
 
                     <div className="col-md-1">Sucursal: </div>
                     <div className="col-md-2">
-                        <Select options={Sucursales} onChange={(valor) => {
+                        <Select options={Sucursales} defaultValue={Prioritarios.find(() => '*')} onChange={(valor) => {
                             this.setState({sucursalSelected:valor.value}) //cambio el estado de sucursalSelected por el elegido
                         }}/>
                     </div>
@@ -509,7 +560,7 @@ class Dashboard extends Component {
                     </div>
                 </div>
                 <DashboardHeader hcantidad_mec={ordenes_mec.length} hcantidad_cyp={ordenes_cyp.length} ></DashboardHeader>
-                <DashboardBody2 _ordenes_asesor={ordenes_asesor} ></DashboardBody2>
+                <DashboardBody2 _ordenes_sucursal={ordenes_asesor} ></DashboardBody2>
             </div>
         );
     }
