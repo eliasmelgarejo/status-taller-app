@@ -506,7 +506,7 @@ class Dashboard extends Component {
 
                     <div className="col-md-1">Sucursal: </div>
                     <div className="col-md-2">
-                        <Select options={Sucursales} defaultValue={Prioritarios.find(() => '*')} onChange={(valor) => {
+                        <Select options={Sucursales} defaultValue={Sucursales.find(() => '*')} onChange={(valor) => {
                             this.setState({sucursalSelected:valor.value}) //cambio el estado de sucursalSelected por el elegido
                         }}/>
                     </div>
