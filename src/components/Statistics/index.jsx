@@ -225,7 +225,7 @@ class Statistics extends Component {
 
     componentDidMount() {
         this.setState({ isLoading: false });
-        this.getResumen();
+        this.getResumen2();
     }
     
     render() { 

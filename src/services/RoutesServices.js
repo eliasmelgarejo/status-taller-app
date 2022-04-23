@@ -50,4 +50,4 @@ const RoutesServices = {
 
 }
 
-export default RoutesServices;
+// export default RoutesServices;
